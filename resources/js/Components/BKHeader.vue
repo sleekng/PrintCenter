@@ -1,78 +1,22 @@
 <template>
 <div class="flex items-center justify-center p-2 bg-secondary2">
-    <i class="fa-sharp fa-light fa-timer mr-4 text-2xl text-white"></i>
+    <i class="fa-sharp fa-light fa-timer mr-4  text-2xl text-white"></i>
     <p class="font-body w-auto text-xs font-bold text-white md:text-xl">
         Fast Turnaround Within Days
     </p>
 </div>
-<div :class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="z-[9999999] h-screen top-0 left-0  fixed bg-black bg-opacity-50">
-
-</div>
 <div class="container relative border-b">
     <div class="relative z-40 py-6 shadow-xs lg:py-10">
         <div class="flex w-full items-center justify-center">
+
             <a href="/">
                 <img src="/storage/img/logo-main.png" class="h-auto w-20 sm:w-40" alt="logo">
             </a>
-            <div class="lg:hidden ml-auto">
 
-                <i class="fa-sharp fa-regular fa-bars text-3xl  cursor-pointer" @click="mobileMenu = !mobileMenu"></i>
+            <div class="hidden">
+                <i class="bx bx-menu text-3xl text-primary" @click="mobileMenu = true"></i>
             </div>
         </div>
-        <div :class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="lg:hidden fixed bg-white w-full top-0 left-0 px-4 z-50 h-[80vh] justify-center pt-8">
-
-            <i class="fa-sharp fa-light fa-xmark cursor-pointer top-4  text-3xl  absolute right-10" @click="mobileMenu = false"></i>
-            <ul class="list-reset">
-                <li class="mb-4">
-                    <Link :href="route('home')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Home</Link>
-                </li>
-                <li class="mb-4">
-                    <span @click="allProductMethod" class="flex items-center space-x-4 text-lg text-secondary transition-all hover:font-bold hover:text-primary cursor-pointer">
-                        <span>All Products</span>
-                        <i :class="{ 'fa-chevron-down': allProductsMenu, 'fa-chevron-right': !allProductsMenu }" class="fa-regular transition-transform duration-200"></i>
-                    </span>
-                    <!-- Submenu for all products -->
-                    <ul :class="{ 'block': allProductsMenu, 'hidden': !allProductsMenu }" class="list-reset pl-4 mt-2">
-                        <li v-for="category in navcategories" :key="category.id" class="mb-2">
-                            <span @click="categoryMenu = categoryMenu === category.id ? null : category.id" class="flex items-center space-x-4 font-hk text-md text-secondary transition-all hover:font-bold hover:text-primary cursor-pointer font-bold">
-                                <span>{{ category.name }}</span>
-                                <i :class="{ 'fa-chevron-down': categoryMenu === category.id, 'fa-chevron-right': categoryMenu !== category.id }" class="fa-regular transition-transform duration-200"></i>
-                            </span>
-                            <ul :class="{ 'block': categoryMenu === category.id, 'hidden': categoryMenu !== category.id }" class="list-reset pl-4 mt-2">
-                                <li v-for="product in category.products" :key="product.id" class="mb-3">
-                                    <Link :href="route('product.show', product.id)" class="block font-hk text-secondary transition-all hover:font-bold hover:text-primary">{{ product.name }}</Link>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="mb-4">
-                    <a href="/blog" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Get Quote</a>
-                </li>
-                <li class="mb-4">
-                    <a href="/contact#faq" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Track Orders</a>
-                </li>
-                <li class="mb-4">
-                    <a href="/contact" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Contact</a>
-                </li>
-                <li class="mb-4">
-                    <template v-if="$page.props.auth.user">
-                        <Link :href="route('dashboard')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Dashboard</Link>
-                    </template>
-                    <template v-else>
-                        <Link :href="route('login')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Login</Link>
-                    </template>
-                </li>
-                <li class="mb-4">
-                    <Link href="/cart" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">
-                    <span class="font-bold text-sm">{{ CartCount }}</span>
-                    <i class="fa-sharp fa-light fa-cart-shopping block text-xl"></i>
-                    </Link>
-                </li>
-            </ul>
-        </div>
-
         <div class="hidden justify-center lg:flex lg:pt-8">
             <ul class="list-reset flex items-center">
 
@@ -80,36 +24,47 @@
                     <Link :href="route('home')" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Home</Link>
                 </li>
 
-                <li class="group mr-10 hidden lg:block">
+                <li class="group  mr-10 hidden lg:block">
                     <div class="flex items-center border-b-2 border-white transition-colors group-hover:border-primary">
                         <span class="cursor-pointer px-2 font-hk text-lg text-secondary transition-all group-hover:font-bold group-hover:text-primary">All products</span>
                         <i class="bx bx-chevron-down px-2 pl-2 text-secondary transition-colors group-hover:text-primary"></i>
                     </div>
 
-                    <div class="pointer-events-none absolute top-0 left-0 right-0 z-50 mx-auto mt-44 w-2/3 pt-10 opacity-0 group-hover:pointer-events-auto group-hover:opacity-100">
-                        <div class="relative flex rounded-b bg-white shadow-lg transition-all">
+                    <div class="pointer-events-none  absolute top-0 left-0 right-0 z-50 mx-auto mt-44 w-2/3 pt-10 opacity-0 group-hover:pointer-events-auto group-hover:opacity-100">
+                        <div class="relative flex  rounded-b bg-white    shadow-lg transition-all">
                             <div class="relative h-[450px] overflow-y-auto z-20 flex-1 border-r p-8">
                                 <ul>
-                                    <li :class="category.id == hoveredCategoryId ? 'bg-gray-100 font-bold text-black' : ''" @mouseover="showCategory(category)" v-for="category in navcategories" :key="category.id" class="p-2 cursor-pointer">
-                                        <button class="border-b border-transparent font-hk leading-loose text-secondary-lighter hover:border-secondary-lighter">{{ category.name }}</button>
+
+                                    <li :class="category.id == hoveredCategoryId ? 'bg-gray-100 font-bold text-black' : ''" @mouseover="showCategory(category)" v-for="category in navcategories" :key="category.id" class=" p-2 cursor-pointer">
+                                        <button href="/collection-grid" class="border-b border-transparent font-hk  leading-loose text-secondary-lighter hover:border-secondary-lighter">{{ category.name }}</button>
                                     </li>
+
                                 </ul>
                             </div>
+
                             <div class="relative h-[450px] overflow-y-auto z-20 flex-1 p-8 border-r">
                                 <ul>
+
                                     <li :class="product.id == hoveredProductId ? 'bg-gray-100 font-bold text-black' : ''" @mouseover="showProducts(product)" v-for="product in hoveredCategory.products" :key="product.id" class="p-2 cursor-pointer">
-                                        <button class="border-b border-transparent font-hk leading-loose text-secondary-lighter hover:border-secondary-lighter">{{ product.name }}</button>
+
+                                        <button href="/collection-grid" class="border-b border-transparent font-hk  leading-loose text-secondary-lighter hover:border-secondary-lighter">{{ product.name }}</button>
                                     </li>
                                 </ul>
                             </div>
+
                             <div class="relative h-[450px] overflow-y-auto z-20 flex-1 p-8">
+
                                 <ul>
+
                                     <li v-if="hoveredProduct">
-                                        <Link :href="route('product.show', hoveredProduct.id)" class="border-b border-transparent font-hk leading-loose text-secondary-lighter hover:border-secondary-lighter">
+                                        <Link :href="route('product.show',hoveredProduct.id)" class="border-b border-transparent font-hk  leading-loose text-secondary-lighter hover:border-secondary-lighter">
+
                                         <div class="w-full flex flex-col space-x-4 items-center">
                                             <div class="w-44">
-                                                <img class="rounded-lg" :src="'/storage/'+hoveredProduct.product_img1" alt="" />
+
+                                                <img class="rounded-lg " :src="'/storage/'+hoveredProduct.product_img1" alt="" />
                                             </div>
+
                                             <div class="p-4">
                                                 <div class="">
                                                     <h4 class="font-bold whitespace-normal text-xl text-gray-600">
@@ -124,16 +79,20 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <Link :href="route('product.show', hoveredProduct.id)" class="text-white bg-primary hover:opacity-80 px-8 py-2 font-bold rounded-sm flex w-full justify-center">Select Option</Link>
+                                                    <Link :href="route('product.show',hoveredProduct.id)" class="text-white bg-primary hover:opacity-80 px-8 py-2 font-bold rounded-sm flex w-full justify-center">Select Option</Link>
                                                 </div>
                                             </div>
                                         </div>
+
                                         </Link>
                                     </li>
+
                                 </ul>
                             </div>
+
                         </div>
                     </div>
+
                 </li>
 
                 <li class="mr-10">
@@ -150,19 +109,21 @@
 
                 <li class="mr-10">
                     <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="flex items-center space-x-2 border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+
                     <i class="fa-sharp fa-light fa-user block text-xl"></i><span>Dashboard</span>
                     </Link>
                     <template v-else>
                         <Link :href="route('login')" class="flex items-center space-x-2 border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+
                         <i class="fa-sharp fa-light fa-user block text-xl"></i><span>Login</span>
                         </Link>
                     </template>
                 </li>
 
                 <li class="mr-10">
-                    <Link href="/cart" class="border-b-2 border-white flex flex-col items-center space-x-0 px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
-                    <span class="font-bold text-sm">{{ CartCount }}</span>
-                    <i class="fa-sharp fa-light fa-cart-shopping block text-xl group-hover:hidden" alt="icon cart"></i>
+                    <Link href="/cart" class=" border-b-2 border-white flex flex-col items-center space-x-0 px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+                    <span class="font-bold text-sm"> {{ CartCount }}</span>
+                    <i class="fa-sharp fa-light fa-cart-shopping block text-xl group-hover:hidden " alt="icon cart"></i>
                     </Link>
                 </li>
 
@@ -187,7 +148,6 @@ export default {
         },
         CartCount: {
             type: Object,
-            default: 0
         },
         canLogin: {
             type: Boolean,
@@ -202,9 +162,6 @@ export default {
 
     data() {
         return {
-            categoryMenu: false,
-            allProductsMenu: false,
-            mobileMenu: false,
             categoriesShow: false,
             hoveredProductId: null,
             hoveredCategoryId: null,
@@ -215,9 +172,6 @@ export default {
     },
 
     methods: {
-        allProductMethod() {
-            this.allProductsMenu = !this.allProductsMenu
-        },
         showSubcategories(categoryId) {
             this.hoveredCategoryId = categoryId;
             this.showProduct = true;
@@ -258,8 +212,6 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-.fa-chevron-down {
-    transform: rotate(360deg);
-}
+<style lang="scss" scoped>
+
 </style>
