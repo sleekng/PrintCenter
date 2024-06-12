@@ -1,0 +1,7 @@
+
+@import url('_custom.css');
+@import url('tailwind.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
