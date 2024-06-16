@@ -22,7 +22,12 @@ class CartController extends Controller
         // Retrieve cart items from session
         $cartItems = session()->get('cart.items', []);
       
-    
+        $breadcrumbs = [
+            ['link'=> route('home'), 'text'=>'Home'],
+            ['link'=> route('home'),'text'=>  'Product'],
+            ['link'=> route('cart'),'text'=>  'Cart']
+
+        ];
         // Initialize an empty array to hold detailed cart items
         $detailedCartItems = [];
 
@@ -55,12 +60,14 @@ class CartController extends Controller
                     }
                 }
 
+   
+
 
                 // Add detailed cart item to detailedCartItems array
                 $detailedCartItems[] = [
                     'cartItemId' => $cartItem['cartItemId'],
-               
                     'product' => $product,
+                   
                     'delivery' => $cartItem['delivery'],
                     'hireDesigner' => $cartItem['hireDesigner'],
                     'designDescription' => $cartItem['designDescription'],
@@ -72,9 +79,9 @@ class CartController extends Controller
             }
         }
 
-      
         return Inertia::render('Cart', [
             'cart' => $detailedCartItems,
+            'breadcrumbs' => $breadcrumbs
         ]);
 
     }
@@ -92,6 +99,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+    
         session()->forget('cart.Pitems');
         $productId = $request->input('product_id');
         $selectedOptions = $request->input('selectedOptions');
@@ -171,14 +179,25 @@ class CartController extends Controller
                 'quantity' => $cartPItems[$cartItemId]['quantity'],
                 'attributeDetails' => $attributeDetails,
             ];
+
+
       
         } else {
             return redirect()->route('product.show', $cartPItems[$cartItemId]['product_id']);
         }
+        $breadcrumbsProduct = Product::find($cartPItems[$cartItemId]['product_id']);
+
+        $breadcrumbs = [
+            ['link'=> route('product.index'), 'text'=>'Products'],
+            ['link'=> route('product.show', $breadcrumbsProduct->id),'text'=>  $breadcrumbsProduct->name],
+            ['link'=> route('product.show', $breadcrumbsProduct->id),'text'=>  'Upload Artwork']
+
+        ];
 
 
         return Inertia::render('Product/uploadArtwork', [
-            'product' => $detailedCartItems
+            'product' => $detailedCartItems,
+            'breadcrumbs' => $breadcrumbs,
         ]);
 
     }
@@ -194,7 +213,7 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $productId)
+    public function update(Request $request, $cartItemId)
     {
 
         $quantity = $request->input('quantity');
@@ -202,10 +221,12 @@ class CartController extends Controller
         // Retrieve cart items from session
         $cartItems = session()->get('cart.items', []);
 
+      
+
         // Check if the product is in the cart
-        if (isset($cartItems[$productId])) {
+        if (isset($cartItems[$cartItemId])) {
             // Update the quantity of the existing item
-            $cartItems[$productId]['quantity'] = $quantity;
+            $cartItems[$cartItemId]['quantity'] = $quantity;
 
             // Store updated cart items in session
             session()->put('cart.items', $cartItems);
@@ -270,12 +291,8 @@ class CartController extends Controller
 
     public function remove(Request $request, $cartItemId)
     {
-
-
        // Retrieve cart items from session
        $cartItems = session()->get('cart.items', []);
-
-
 
         // Check if the product is in the cart
         if (isset($cartItems[$cartItemId])) {
@@ -323,7 +340,6 @@ class CartController extends Controller
 
         // Clear cart items from session
         session()->forget('cart.items');
-
 
         return redirect()->route('cart.index');
     }

@@ -10,9 +10,9 @@
             <ol role="list" class="flex items-center">
               <li class="text-left">
                 <div class="-m-1">
-                  <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
+                  <Link :href="route('home')" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
                     Home
-                  </a>
+                  </Link>
                 </div>
               </li>
   
@@ -20,9 +20,9 @@
                 <div class="flex items-center">
                   <span class="mx-2 text-gray-400">/</span>
                   <div class="-m-1">
-                    <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                      Products
-                    </a>
+                    <Link :href="route('home')" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
+                    Home
+                  </Link>
                   </div>
                 </div>
               </li>
@@ -32,7 +32,7 @@
                   <span class="mx-2 text-gray-400">/</span>
                   <div class="-m-1">
                     <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page">
-                      Coffee
+                      PayNow
                     </a>
                   </div>
                 </div>
@@ -40,10 +40,7 @@
             </ol>
           </nav>
   
-          <div class="w-full lg:w-3/12 relative">
-            <input type="text" placeholder="Search for a product" class="w-full pr-12 h-[60px] border rounded-md" />
-            <i class="fa-sharp fa-light fa-magnifying-glass absolute top-4 right-4 text-2xl"></i>
-          </div>
+          <search />
         </div>
   
         <section class="py-12 sm:py-4 lg:py-8 flex justify-center mt-20">
@@ -83,10 +80,12 @@
   import Header from "@/Components/Header.vue";
   import Footer from "@/Components/Footer.vue";
   import SiteModal from "@/Components/SiteModal.vue";
+  import Search from "@/Components/Search.vue"
   import axios from 'axios';
   
   export default {
     components: {
+      Search,
       ApplicationLogo,
       PrimaryButton,
       Link,

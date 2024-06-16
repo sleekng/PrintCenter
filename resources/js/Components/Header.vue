@@ -19,7 +19,30 @@
                 <i class="fa-sharp fa-regular fa-bars text-3xl  cursor-pointer" @click="mobileMenu = !mobileMenu"></i>
             </div>
         </div>
-        <div :class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="lg:hidden fixed bg-white w-full top-0 left-0 px-4 z-50 h-[80vh] justify-center pt-8">
+        <div class="">
+
+            <ul class="lg:hidden items-center justify-end space-x-3 flex">
+
+                <li class="m">
+                    <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="flex items-center space-x-2 border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+                    <i class="fa-sharp fa-light fa-user block text-xl"></i><span>Dashboard</span>
+                    </Link>
+                    <template v-else>
+                        <Link :href="route('login')" class="flex items-center space-x-2 border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+                        <i class="fa-sharp fa-light fa-user block text-xl"></i><span>Login</span>
+                        </Link>
+                    </template>
+                </li>
+
+                <li class="">
+                    <Link href="/cart" class="border-b-2 border-white flex flex-col items-center space-x-0 px-2 relative font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+                    <span class="text-[10px] absolute top-0">{{ CartCount }}</span>
+                    <i class="fa-sharp fa-light fa-cart-shopping block text-xl group-hover:hidden" alt="icon cart"></i>
+                    </Link>
+                </li>
+            </ul>
+        </div>
+        <div :class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="lg:hidden fixed bg-white w-full top-0 left-0 px-4 z-50 h-[100vh] justify-center pt-8">
 
             <i class="fa-sharp fa-light fa-xmark cursor-pointer top-4  text-3xl  absolute right-10" @click="mobileMenu = false"></i>
             <ul class="list-reset">
@@ -80,58 +103,68 @@
                     <Link :href="route('home')" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Home</Link>
                 </li>
 
-                <li class="group mr-10 hidden lg:block">
+                <li class="group mr-8 hidden lg:block">
                     <div class="flex items-center border-b-2 border-white transition-colors group-hover:border-primary">
-                        <span class="cursor-pointer px-2 font-hk text-lg text-secondary transition-all group-hover:font-bold group-hover:text-primary">All products</span>
+                        <span class="cursor-pointer px-3 py-2 font-hk text-lg text-secondary transition-all group-hover:font-bold group-hover:text-primary">
+                            All products
+                        </span>
                         <i class="bx bx-chevron-down px-2 pl-2 text-secondary transition-colors group-hover:text-primary"></i>
                     </div>
 
-                    <div class="pointer-events-none absolute top-0 left-0 right-0 z-50 mx-auto mt-44 w-2/3 pt-10 opacity-0 group-hover:pointer-events-auto group-hover:opacity-100">
+                    <!-- Dropdown Content -->
+                    <div class="pointer-events-none absolute top-0 left-0 right-0 z-50 mx-auto mt-44 w-2/3 pt-6 opacity-0 group-hover:pointer-events-auto group-hover:opacity-100">
                         <div class="relative flex rounded-b bg-white shadow-lg transition-all">
-                            <div class="relative h-[450px] overflow-y-auto z-20 flex-1 border-r p-8">
+
+                            <!-- Categories List -->
+                            <div class="relative h-[450px] overflow-y-auto z-20 flex-1 border-r border-gray-200 p-6 bg-white">
                                 <ul>
-                                    <li :class="category.id == hoveredCategoryId ? 'bg-gray-100 font-bold text-black' : ''" @mouseover="showCategory(category)" v-for="category in navcategories" :key="category.id" class="p-2 cursor-pointer">
-                                        <button class="border-b border-transparent font-hk leading-loose text-secondary-lighter hover:border-secondary-lighter">{{ category.name }}</button>
+                                    <li v-for="category in navcategories" :key="category.id" :class="category.id == hoveredCategoryId ? 'bg-gray-100 font-bold text-black' : 'text-gray-700'" @mouseover="showCategory(category)" class="p-3 cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out">
+                                        <button class="w-full text-left border-b border-transparent font-hk leading-loose hover:border-secondary-lighter focus:outline-none focus:border-secondary-lighter">
+                                            {{ category.name }}
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="relative h-[450px] overflow-y-auto z-20 flex-1 p-8 border-r">
+
+                            <!-- Products List -->
+                            <div class="relative h-[450px] overflow-y-auto z-20 flex-1 p-6 border-r border-gray-200 bg-white">
                                 <ul>
-                                    <li :class="product.id == hoveredProductId ? 'bg-gray-100 font-bold text-black' : ''" @mouseover="showProducts(product)" v-for="product in hoveredCategory.products" :key="product.id" class="p-2 cursor-pointer">
-                                        <button class="border-b border-transparent font-hk leading-loose text-secondary-lighter hover:border-secondary-lighter">{{ product.name }}</button>
+                                    <li v-for="product in hoveredCategory.products" :key="product.id" :class="product.id == hoveredProductId ? 'bg-gray-100 font-bold text-black' : 'text-gray-700'" @mouseover="showProducts(product)" class="p-3 cursor-pointer hover:bg-gray-200 transition duration-150 ease-in-out">
+                                        <button class="w-full text-left border-b border-transparent font-hk leading-loose hover:border-secondary-lighter focus:outline-none focus:border-secondary-lighter">
+                                            {{ product.name }}
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="relative h-[450px] overflow-y-auto z-20 flex-1 p-8">
+
+                            <!-- Product Details -->
+                            <div class="relative h-[450px] w-full overflow-y-auto z-20 flex-1 p-6 bg-white shadow-md rounded-lg">
                                 <ul>
-                                    <li v-if="hoveredProduct">
-                                        <Link :href="route('product.show', hoveredProduct.id)" class="border-b border-transparent font-hk leading-loose text-secondary-lighter hover:border-secondary-lighter">
-                                        <div class="w-full flex flex-col space-x-4 items-center">
-                                            <div class="w-44">
-                                                <img class="rounded-lg" :src="'/storage/'+hoveredProduct.product_img1" alt="" />
-                                            </div>
-                                            <div class="p-4">
-                                                <div class="">
-                                                    <h4 class="font-bold whitespace-normal text-xl text-gray-600">
-                                                        {{ hoveredProduct.name }}
-                                                    </h4>
-                                                </div>
-                                                <div>
-                                                    <span class="text-gray-300">starting at</span>
-                                                    <div class="flex justify-between items-center py-4">
-                                                        <span class="text-2xl font-bold text-primary">{{ hoveredProduct.price }}</span>
-                                                        <span class="text-primary">Per 100unit</span>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <Link :href="route('product.show', hoveredProduct.id)" class="text-white bg-primary hover:opacity-80 px-8 py-2 font-bold rounded-sm flex w-full justify-center">Select Option</Link>
+                                    <li v-if="hoveredProduct" class=" border-gray-200 pb-4 mb-4">
+                                        <Link :href="route('product.show', hoveredProduct.id)" class="flex flex-col items-center space-y-6 text-center transition-transform transform hover:scale-105">
+                                        <div class="w-44">
+                                            <img class="rounded-lg shadow-lg" :src="'/storage/' + hoveredProduct.product_img1" alt="" />
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-lg shadow-inner">
+                                            <h4 class="font-bold text-xl text-gray-800">
+                                                {{ hoveredProduct.name }}
+                                            </h4>
+                                            <div class="text-gray-500 mt-2">
+                                                <span>Starting at</span>
+                                                <div class="flex justify-center items-center py-2">
+                                                    <span class="text-2xl font-bold text-primary mr-2">{{ hoveredProduct.price }}</span>
+                                                    <span class="text-sm text-gray-400">Per 100 units</span>
                                                 </div>
                                             </div>
+                                            <Link :href="route('product.show', hoveredProduct.id)" class="text-white bg-primary hover:bg-primary-dark px-8 py-2 mt-4 font-bold rounded-md transition-colors duration-300">
+                                            Select Option
+                                            </Link>
                                         </div>
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
+
                         </div>
                     </div>
                 </li>

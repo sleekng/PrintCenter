@@ -2,54 +2,31 @@
 <!--   Navbar -->
 <Header :navcategories="navcategories" :CartCount="CartCount" />
 <!-- End Navbar -->
-<!-- <div v-if="loading" class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+<div v-if="loading" class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
     <div class=" rounded-lg w-1/2 p-8">
         <div class="flex justify-center">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
         </div>
     </div>
-</div> -->
+</div>
 <section class="py-12 sm:py-16">
     <div class="container mx-auto px-4 sm:px-24">
         <div class="flex flex-col sm:flex-row">
             <nav class="flex w-full sm:w-9/12 mb-4 sm:mb-0">
                 <ol role="list" class="flex items-center space-x-2">
-                    <li class="text-left">
-                        <div class="-m-1">
-                            <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                Home
-                            </a>
-                        </div>
-                    </li>
-
-                    <li class="text-left">
+                    <li v-for="item,index in breadcrumbs" :key="index" class="text-left">
                         <div class="flex items-center">
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                    Products
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="text-left">
-                        <div class="flex items-center">
-                            <span class="mx-2 text-gray-400">/</span>
-                            <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page">
-                                    Coffee
-                                </a>
+                                <Link :href="item.link" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
+                                {{ item.text }}
+                                </Link>
                             </div>
                         </div>
                     </li>
                 </ol>
             </nav>
-
-            <div class="w-full sm:w-3/12 relative">
-                <input type="text" placeholder=" Search for a product" class="w-full pr-12 h-12 sm:h-[60px] border rounded-md" />
-                <i class="fa-sharp fa-light fa-magnifying-glass absolute top-2 sm:top-4 right-4 text-xl sm:text-2xl"></i>
-            </div>
+            <search />
         </div>
 
         <section class=" py-12 sm:py-4 lg:py-8">
@@ -105,19 +82,22 @@
             <!-- {{ cart }} -->
             <div class="bg-white grid-cols-1 mt-4  gap-20 grid  md:grid-cols-12">
                 <div :class="cart.length > 0 ? 'md:col-span-8' : 'md:col-span-12'" class="  border rounded-md  col-span-1  p-4 sm:pt-10">
-                    <div v-if="cart.length === 0" class="  flex justify-center items-center flex-col">
+                    <div v-if="cart.length === 0" class="flex flex-col items-center justify-center space-y-6 p-4 text-center sm:text-left  sm:space-y-0 sm:space-x-6">
 
-                        <div class=" text-4xl font-bold text-green-600">
+                        <div class="text-2xl sm:text-4xl font-bold text-green-600">
                             Cart is empty!
                         </div>
-                        <div class="flex space-x-4 items-center py-4 ">
+                        <div class="flex flex-col justify-center items-center space-y-4 sm:space-y-2 ">
                             <span>Please add some products to your shopping cart</span>
-                            <Link class="text-primary" :href="route('home')"> Explore <i class="fa-sharp fa-solid fa-arrow-right"></i></Link>
+                            <Link class="text-primary underline hover:text-primary-dark" :href="route('home')">
+                            Explore <i class="fa-sharp fa-solid fa-arrow-right"></i>
+                            </Link>
                         </div>
-                        <div class=" w-4/12">
-                            <img src="/storage/img/empty-cart.svg" alt="">
+                        <div class="w-10/12 sm:w-4/12">
+                            <img src="/storage/img/empty-cart.svg" alt="Empty cart image" class="w-full">
                         </div>
                     </div>
+
                     <div class="flex flex-col  gap-8">
                         <div class="flex-1 border-b border-green-600" v-for="product, index in cart" :key="index">
                             <div class="flex flex-col md:flex-row md:items-center   pb-4">
@@ -145,8 +125,9 @@
                                         </select>
                                     </div>
                                     <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-1'">
+
                                         <label class="mr-2">Quantity:</label>
-                                        <select v-model="product.quantity" @change="updateQuantity(product.product.id, product.quantity)" class=" bg-gray-100   border-0">
+                                        <select v-model="product.quantity" @change="updateQuantity(product.cartItemId, product.quantity)" class=" bg-gray-100   border-0">
                                             <option value="1">100</option>
                                             <option value="2">200</option>
                                             <option value="3">300</option>
@@ -173,7 +154,7 @@
                         <button @click="clearCart()" class="text-green-600 font-bold">Clear Cart</button>
                     </div>
                 </div>
-               <!--  Order Summary section -->
+                <!--  Order Summary section -->
                 <div v-if="cart.length > 0 " class="   col-span-1 md:col-span-4 sm:pb-10 ">
                     <div class="py-4 font-bold">
                         Order Summary
@@ -315,6 +296,7 @@
 <script>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import Search from "@/Components/Search.vue"
 import {
     Head,
     Link,
@@ -328,6 +310,7 @@ import SiteModal from "@/Components/SiteModal.vue";
 import axios from 'axios';
 export default {
     components: {
+        Search,
         ApplicationLogo,
         PrimaryButton,
         Link,
@@ -341,6 +324,9 @@ export default {
             type: Object,
         },
         cart: {
+            required: true
+        },
+        breadcrumbs: {
             required: true
         },
         CartCount: {
@@ -484,12 +470,12 @@ export default {
             router.post('/cart/clear')
 
         },
-        updateQuantity(productId, quantity) {
+        updateQuantity(cartItemId, quantity) {
             this.loading = !this.loading
             this.$page.props.flash.success = false
             this.$page.props.flash.message = false
             // Update cart in API or local storage
-            axios.put('/cart/update/' + productId, {
+            axios.put('/cart/update/' + cartItemId, {
                 quantity: quantity
             }).then((response) => {
                 this.$page.props.flash.message = response.data.message
@@ -521,18 +507,9 @@ export default {
             router.post(route('cart.remove', cartItemId));
 
         },
-        handleScroll() {
-            const orderSummary = this.$refs.orderSummary;
-            const rect = orderSummary.getBoundingClientRect();
-            this.isSticky = rect.top <= 200;
-        }
+
     },
-    mounted() {
-        window.addEventListener('scroll', this.handleScroll);
-    },
-    beforeDestroy() {
-        window.removeEventListener('scroll', this.handleScroll);
-    }
+
 };
 </script>
 
@@ -552,7 +529,9 @@ export default {
 .sticky-top {
     position: fixed;
     top: 200px;
-    width: inherit; /* Maintain the width of the original container */
-    z-index: 1000; /* Adjust the z-index if necessary */
+    width: inherit;
+    /* Maintain the width of the original container */
+    z-index: 1000;
+    /* Adjust the z-index if necessary */
 }
 </style>

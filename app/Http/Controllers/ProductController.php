@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductAttribute;
+use App\Models\ProductAttributeOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -54,27 +55,35 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:products',
+            'description' => 'nullable|string',
             'unit' => 'required|string|max:255',
-            'description' => 'required|string',
             'quantityType' => 'required|string',
-            'price' => 'required|string|max:255',
-            // Add validation for other product attributes as needed
+            'price' => 'required|numeric', // Ensure price is a numeric value
+            'attributes' => 'required|array',
+            'categories' => 'array',
+            'attributes.*.name' => 'required|string|max:255',
+            'attributes.*.type' => 'required|string',
+            'attributes.*.options' => 'nullable|array',
+            'attributes.*.options.*.value' => 'required|string|max:255',
+            'attributes.*.options.*.cost' => 'nullable|numeric',
+        ], [
+            'categories' => 'Atleast one category must be selected',
+            'attributes.required' => 'Atleast one Attribute(s) must be Added'
         ]);
 
-        $Data = $request->validate([
-            'attributes' => 'array',
-            'categories' => 'array',
-            // Add validation for other product attributes as needed
-        ]);
+
+
+
 
         $product = Product::create([
             'name' => $validatedData['name'],
             'unit' => $validatedData['unit'],
             'description' => $validatedData['description'],
             'price' => $validatedData['price'],
+            'slug' => $validatedData['slug'],
             'quantityType' => $validatedData['quantityType'],
         ]);
 
@@ -106,19 +115,33 @@ class ProductController extends Controller
             }
         }
 
-        if (isset($Data['attributes'])) {
 
-            // Attach product attributes and their options
-            $product->attributes()->attach($Data['attributes']);
+        foreach ($request['attributes'] as $attributeData) {
+            $attribute = ProductAttribute::create([
+                'product_id' => $product->id,
+                'name' => $attributeData['name'],
+                'type' => $attributeData['type'],
+            ]);
+
+
+
+            if (in_array($attribute->type, ['radio', 'radio_single', 'select']) && isset($attributeData['options'])) {
+                foreach ($attributeData['options'] as $optionData) {
+                    $option = new ProductAttributeOption([
+                        'value' => $optionData['value'],
+                        'cost' => $optionData['cost'],
+                    ]);
+                    $attribute->options()->save($option);
+                }
+            }
         }
 
-        if (isset($Data['categories'])) {
+        if (isset($validatedData['categories'])) {
 
-            $product->categories()->attach($Data['categories']);
+            $product->categories()->attach($validatedData['categories']);
         }
 
-
-        return redirect()->route('product.index')->with('success', 'Product Added successfully.');
+        return redirect()->route('product.index')->with('success', 'Product created successfully!');
     }
 
 
@@ -127,14 +150,25 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        
+        $breadcrumbs = [
+            ['link'=> route('product.index'), 'text'=>'Products'],
+            ['link'=> route('product.show',$product->id),'text'=> $product->name]
+
+        ];
+
+        $products = Product::all();
 
         $productPack = $product->load('attributes.options');
+
         $categories = Category::with('products')->get();
 
-        
+
         return Inertia::render('Product/Show', [
             'product' => $productPack,
-            'navOptions' => $categories
+            'navOptions' => $categories,
+            'breadcrumbs' => $breadcrumbs,
+            'products' => $products
         ]);
     }
 
@@ -143,13 +177,16 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $productContainer = $product->load('attributes.options', 'categories');
-        $attributes = ProductAttribute::all(); // Retrieve all attributes to select from
-        $categories = Category::all(); // Retrieve all attributes to select from
-        return Inertia::render('Product/Edit', [
-            'product' => $productContainer,
-            'attributes' => $attributes,
-            'categories' => $categories
+        // Assuming you have relationships defined in your Product model
+        $product->load('categories', 'attributes', 'attributes.options');
+
+        // Fetch all categories for checkbox selection
+        $categories = Category::all();
+
+        // Return view with necessary props for Inertia.js
+        return inertia('Product/Edit', [
+            'categories' => $categories,
+            'product' => $product,
         ]);
     }
 
@@ -177,82 +214,93 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateProduct(Request $request)
+
+
+    
+    public function updateProduct(Request $request, Product $product)
     {
-
-
-        $product =  Product::where('id', '=', $request->input('productId'))->firstOrFail();
-
+    
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:products,slug,' . $product->id,
+            'description' => 'nullable|string',
+            'unit' => 'required|string|max:255',
+            'quantityType' => 'required|string',
+            'price' => 'required|numeric',
+            'attributes' => 'required|array',
+            'categories' => 'array',
+            'attributes.*.name' => 'required|string|max:255',
+            'attributes.*.type' => 'required|string',
+            'attributes.*.options' => 'nullable|array',
+            'attributes.*.options.*.value' => 'required|string|max:255',
+            'attributes.*.options.*.cost' => 'nullable|numeric',
+        ], [
+            'categories' => 'Atleast one category must be selected',
+            'attributes.required' => 'Atleast one Attribute(s) must be Added'
+        ]);
+    
+        $product = Product::findOrFail($product->id);
+    
+        $product->update([
+            'name' => $validatedData['name'],
+            'unit' => $validatedData['unit'],
+            'description' => $validatedData['description'],
+            'price' => $validatedData['price'],
+            'slug' => $validatedData['slug'],
+            'quantityType' => $validatedData['quantityType'],
+        ]);
+    
         $files = request()->file('files');
-
-
-
-        if (isset($files)) {
-
-            foreach ($files as $key => $file) {
-                $name = $file->hashName();
-
-
-
-                if ($key == 0) {
-
-                    if (Storage::exists('public/' . str_replace(' ', '', $product->product_img1))) {
-                        Storage::delete('public/' . str_replace(' ', '', $product->product_img1));
-                    }
-
-                    $file->storeAs(
-                        'public/' . str_replace(' ', '', $request->name),
-                        $name
-                    );
-
+    
+        if ($files && count($files) > 0) {
+            for ($i = 0; $i < count($files); $i++) {
+                $name = $files[$i]->hashName();
+                $files[$i]->storeAs(
+                    'public/' . str_replace(' ', '', $request->name),
+                    $name
+                );
+    
+                if ($i == 0) {
                     $product->product_img1 = str_replace(' ', '', $request->name) . '/' . $name;
-                    $product->save();
                 }
-
-                if ($key == 1) {
-                    if (Storage::exists('public/' . str_replace(' ', '', $product->product_img2))) {
-                        Storage::delete('public/' . str_replace(' ', '', $product->product_img2));
-                    }
-
-                    $file->storeAs(
-                        'public/' . str_replace(' ', '', $request->name),
-                        $name
-                    );
-
+                if ($i == 1) {
                     $product->product_img2 = str_replace(' ', '', $request->name) . '/' . $name;
-                    $product->save();
                 }
-
-                if ($key == 2) {
-                    if (Storage::exists('public/' . str_replace(' ', '', $product->product_img3))) {
-                        Storage::delete('public/' . str_replace(' ', '', $product->product_img3));
-                    }
-
-                    $file->storeAs(
-                        'public/' . str_replace(' ', '', $request->name),
-                        $name
-                    );
-
+                if ($i == 2) {
                     $product->product_img3 = str_replace(' ', '', $request->name) . '/' . $name;
-                    $product->save();
+                }
+            }
+            $product->save();
+        }
+    
+        $product->attributes()->delete();
+    
+        foreach ($request['attributes'] as $attributeData) {
+            $attribute = ProductAttribute::create([
+                'product_id' => $product->id,
+                'name' => $attributeData['name'],
+                'type' => $attributeData['type'],
+            ]);
+    
+            if (in_array($attribute->type, ['radio', 'radio_single', 'select']) && isset($attributeData['options'])) {
+                foreach ($attributeData['options'] as $optionData) {
+                    $option = new ProductAttributeOption([
+                        'value' => $optionData['value'],
+                        'cost' => $optionData['cost'],
+                    ]);
+                    $attribute->options()->save($option);
                 }
             }
         }
-
-
-        $product->update([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'quantityType' => $request->input('quantityType'),
-            'price' => $request->input('price'),
-        ]);
-
-        // Update product attributes
-        $product->attributes()->sync($request->input('attributes'));
-        $product->categories()->sync($request->input('categories'));
-
-        return redirect()->route('product.index')->with('success', 'Product "' . $product->name . '" Updated successfully.');
+    
+        if (isset($validatedData['categories'])) {
+            $product->categories()->sync($validatedData['categories']);
+        }
+    
+        return redirect()->route('product.index')->with('success', 'Product updated successfully!');
     }
+    
+
 
     /**
      * Remove the specified resource from storage.

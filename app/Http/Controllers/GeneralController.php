@@ -20,7 +20,6 @@ class GeneralController extends Controller
 
 
 
-
         if ($request->createAccount == 'loggedIn') {
             // Attempt to authenticate the user
   
@@ -235,6 +234,13 @@ class GeneralController extends Controller
 
         return response()->json([
             'message' => 'Cart updated successfully',
+        ]);
+    }
+    
+    public function products(){
+        $products = Product::all();
+        return response()->json([
+            'products' => $products,
         ]);
     }
 }

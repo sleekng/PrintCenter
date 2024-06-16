@@ -47,7 +47,7 @@
     <!-- Mobile Version -->
     <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:hidden block">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center md:flex-wrap">
-            <div v-for="(card, index) in cards" :key="index"  :style="{ backgroundColor: index === activeIndex ? activeColor : '' }" class=" rounded-lg shadow-md p-6 flex flex-col items-center text-center" v-show="index === activeIndex">
+            <div v-for="(card, index) in cards" :key="index" :style="{ backgroundColor: index === activeIndex ? activeColor : '' }" class=" rounded-lg shadow-md p-6 flex flex-col items-center text-center" v-show="index === activeIndex">
                 <img :src="'storage/img/icons8-' + card.icon + '-64.png'" class="h-16 w-16 mb-4 object-contain object-center transition-transform transform hover:scale-105" :alt="card.alt">
                 <h3 class="font-hk text-xl font-semibold tracking-wide" :class="card.titleColor">{{ card.title }}</h3>
                 <p class="font-hk text-base tracking-wide text-secondary-lighter">{{ card.description }}</p>
@@ -64,7 +64,7 @@
                     Fast Turnaround Within Days
                 </h3>
                 <p class="font-hk text-base tracking-wide text-secondary-lighter">
-                    Your order gets to you within 3-7 working days via DHL or our very own Printivo Direct.
+                    Your order gets to you within 3-7 working days via DHL.
                 </p>
             </div>
 
@@ -105,28 +105,28 @@
         <div class="products-grid container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                 <Link :href="route('product.show', product.id)" class="product-card card border shadow-sm bg-white" v-for="product in products" :key="product.id">
-                    <div class="product-image overflow-hidden h-48 sm:h-60 md:h-72">
-                        <img :src="'storage/'+product.product_img1" class="w-full h-full object-cover" alt="" />
+                <div class="product-image overflow-hidden h-48 sm:h-60 md:h-72">
+                    <img :src="'storage/'+product.product_img1" class="w-full h-full object-cover" alt="" />
+                </div>
+                <div class="product-details p-4">
+                    <div class="product-title">
+                        <h4 class="font-bold text-md text-gray-800">
+                            {{ truncateTitle(product.name, 7) }}
+                        </h4>
                     </div>
-                    <div class="product-details p-4">
-                        <div class="product-title">
-                            <h4 class="font-bold text-md text-gray-800">
-                                {{ truncateTitle(product.name, 7) }}
-                            </h4>
-                        </div>
-                        <div class="product-price">
-                            <span class="text-gray-400">starting at</span>
-                            <div class="price-details flex justify-between items-center py-4">
-                                <span class="price text-2xl font-bold text-gray-800">₦{{ product.price }}</span>
-                                <span class="unit text-gray-600">Per {{ product.unit }} unit</span>
-                            </div>
-                        </div>
-                        <div class="product-action">
-                            <PrimaryButton :href="route('product.show', product.id)" class="select-option-button bg-gray-800 text-white px-8 py-2 font-bold rounded-sm flex w-full justify-center">
-                                Select Option
-                            </PrimaryButton>
+                    <div class="product-price">
+                        <span class="text-gray-400">starting at</span>
+                        <div class="price-details flex justify-between items-center py-4">
+                            <span class="price text-2xl font-bold text-gray-800">₦{{ product.price }}</span>
+                            <span class="unit text-gray-600">Per {{ product.unit }} unit</span>
                         </div>
                     </div>
+                    <div class="product-action">
+                        <PrimaryButton :href="route('product.show', product.id)" class="select-option-button bg-gray-800 text-white px-8 py-2 font-bold rounded-sm flex w-full justify-center">
+                            Select Option
+                        </PrimaryButton>
+                    </div>
+                </div>
                 </Link>
             </div>
         </div>
@@ -147,15 +147,15 @@ import Footer from "@/Components/Footer.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 export default {
-  watch: {
-    activeIndex() {
-      this.toggleColor();
+    watch: {
+        activeIndex() {
+            this.toggleColor();
+        },
     },
-  },
     data() {
         return {
-    
-          activeColor: '#c5c8cf',
+
+            activeColor: '#c5c8cf',
             activeIndex: 0,
             cards: [{
                     icon: 'shipping',
@@ -206,9 +206,9 @@ export default {
         clearInterval(this.autoTimer);
     },
     methods: {
-      toggleColor() {
-      this.activeColor = this.activeColor === 'red' ? '#c5c8cf' : 'white';
-    },
+        toggleColor() {
+            this.activeColor = this.activeColor === 'red' ? '#c5c8cf' : 'white';
+        },
         truncateTitle(title, wordCount) {
             const words = title.split(" ");
             return words.length > wordCount ? words.slice(0, wordCount).join(" ") + "..." : title;

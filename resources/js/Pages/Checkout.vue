@@ -11,9 +11,9 @@
                 <ol role="list" class="flex items-center space-x-2">
                     <li class="text-left">
                         <div class="-m-1">
-                            <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                Home
-                            </a>
+                            <Link :href="route('home')" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
+                                    Home
+                                </Link>
                         </div>
                     </li>
 
@@ -21,9 +21,9 @@
                         <div class="flex items-center">
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
+                                <Link :href="route('home')" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
                                     Products
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </li>
@@ -32,19 +32,16 @@
                         <div class="flex items-center">
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page">
-                                    Coffee
-                                </a>
+                                <Link :href="route('checkout')" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page">
+                                    Checkout
+                                </Link>
                             </div>
                         </div>
                     </li>
                 </ol>
             </nav>
 
-            <div class="w-full sm:w-3/12 relative">
-                <input type="text" placeholder=" Search for a product" class="w-full pr-12 h-12 sm:h-[60px] border rounded-md" />
-                <i class="fa-sharp fa-light fa-magnifying-glass absolute top-2 sm:top-4 right-4 text-xl sm:text-2xl"></i>
-            </div>
+            <search />
         </div>
         <section class=" py-12 sm:py-4 lg:py-8 border bg-gray-50 mt-20">
             <div v-if="$page.props.flash.error" class="inline-flex  lg:px-20 xl:px-32 rounded-lg px-[18px] animate-bounce animate-once animate-duration-[3000ms]">
@@ -225,6 +222,7 @@
 <script>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import Search from "@/Components/Search.vue"
 import {
     Head,
     Link,
@@ -237,6 +235,7 @@ import SiteModal from "@/Components/SiteModal.vue";
 import axios from 'axios';
 export default {
     components: {
+        Search,
         ApplicationLogo,
         PrimaryButton,
         Link,

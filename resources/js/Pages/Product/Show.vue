@@ -89,76 +89,50 @@
         <div class="flex flex-col sm:flex-row">
             <nav class="flex w-full sm:w-9/12 mb-4 sm:mb-0">
                 <ol role="list" class="flex items-center space-x-2">
-                    <li class="text-left">
-                        <div class="-m-1">
-                            <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                Home
-                            </a>
-                        </div>
-                    </li>
-
-                    <li class="text-left">
+                   
+                    <li v-for="item,index in breadcrumbs" :key="index" class="text-left">
                         <div class="flex items-center">
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                    Products
-                                </a>
+                                <Link :href="item.link" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
+                                    {{ item.text }}
+                                </Link>
                             </div>
                         </div>
                     </li>
 
-                    <li class="text-left">
-                        <div class="flex items-center">
-                            <span class="mx-2 text-gray-400">/</span>
-                            <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page">
-                                    Coffee
-                                </a>
-                            </div>
-                        </div>
-                    </li>
                 </ol>
             </nav>
 
-            <div class="w-full sm:w-3/12 relative">
-                <input type="text" placeholder=" Search for a product" class="w-full pr-12 h-12 sm:h-[60px] border rounded-md" />
-                <i class="fa-sharp fa-light fa-magnifying-glass absolute top-2 sm:top-4 right-4 text-xl sm:text-2xl"></i>
-            </div>
+
+
+            <search />
+
         </div>
 
         <div class="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-2 lg:gap-16">
-            <div class="lg:flex  justify-center items-center flex-col">
-                <div class=" lg:ml-5 h-[400px]">
-                    <!-- Main Image Container -->
-                    <!-- <div class="lg:col-span-3  rounded- p-10 rounded-md" :style="{ backgroundImage: `url('/storage/${mainImg}')` }" style="
-                        background-size: 400px;
-                        background-repeat: no-repeat;
-                        background-position: center center;
-                          ">
-                        <div class="max-w-xl overflow-hidden rounded-lg"></div>
-                    </div> -->
-                    <img :src="'/storage/'+mainImg" alt="">
+            <div class="flex justify-center items-center flex-col bg-gray-100  rounded-md">
+                <div class=" md:w-[400px] overflow-hidden">
+                    <img :src="'/storage/'+mainImg" alt="" class="main-image">
                 </div>
 
                 <!-- Thumbnails Container -->
-                <div class="mt-2 w-full  ">
-                    <div class="flex flex-row  justify-center ">
+                <div class="mt-2 w-full">
+                    <div class="flex flex-row justify-center">
                         <button @click="changeImg(product.product_img1)" type="button" :class="mainImg == product.product_img1 ? 'border-2 border-primary':'border'" class="flex-0 hover:scale-105 transition-all ease-in-out aspect-square mb-3 w-20 overflow-hidden rounded-lg text-center mr-4">
-                            <img class="h-full w-full object-cover" :src="'/storage/'+product.product_img1" alt="" />
+                            <img class="thumbnail" :src="'/storage/'+product.product_img1" alt="" />
                         </button>
                         <button :class="mainImg == product.product_img2 ? 'border-2 border-primary':'border border-1'" @click="changeImg(product.product_img2)" type="button" class="flex-0 hover:scale-105 transition-all ease-in-out aspect-square mb-3 w-20 overflow-hidden rounded-lg text-center mr-4">
-                            <img class="h-full w-full object-cover" :src="'/storage/'+product.product_img2" alt="" />
+                            <img class="thumbnail" :src="'/storage/'+product.product_img2" alt="" />
                         </button>
                         <button :class="mainImg == product.product_img3 ? 'border-2 border-primary':'border border-1'" @click="changeImg(product.product_img3)" type="button" class="flex-0 hover:scale-105 transition-all ease-in-out aspect-square mb-3 w-20 overflow-hidden rounded-lg text-center mr-4">
-                            <img class="h-full w-full object-cover" :src="'/storage/'+product.product_img3" alt="" />
+                            <img class="thumbnail" :src="'/storage/'+product.product_img3" alt="" />
                         </button>
                     </div>
                 </div>
             </div>
 
             <div class="">
-
                 <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl">
                     {{ product.name }}
                 </h1>
@@ -229,6 +203,19 @@
 
                 <!-- RELATED ATTRIBUTE -->
                 <div class="" v-for="attribute in product.attributes" :key="attribute.id">
+                    <div v-if="attribute.type == 'quantity'" class="border-t  mt-2 py-4">
+
+                        <h2 class=" text-base text-gray-900">{{ attribute.name }}</h2>
+
+                        <div class="mt-3 flex select-none items-center gap-1">
+                            <select v-model="form.selectedOptions[attribute.id]">
+                                <option value="" selected disabled>Select Option</option>
+                                <option v-for="option in attribute.options" :key="option.id" :value="option.id">{{ option.value }}</option>
+                            </select>
+
+                        </div>
+
+                    </div>
                     <div v-if="attribute.type == 'select'" class="border-t  mt-2 py-4">
 
                         <h2 class=" text-base text-gray-900">{{ attribute.name }}</h2>
@@ -384,10 +371,15 @@ import {
 } from "@inertiajs/vue3";
 
 import Header from "@/Components/Header.vue";
+import Search from "@/Components/Search.vue"
 import Footer from "@/Components/Footer.vue";
 import SiteModal from "@/Components/SiteModal.vue";
 export default {
     props: {
+        breadcrumbs: {
+            type: Array,
+            required: true
+        },
         product: {
             type: Object,
             required: true
@@ -406,6 +398,7 @@ export default {
         Header,
         Footer,
         SiteModal,
+        Search
     },
 
     data() {

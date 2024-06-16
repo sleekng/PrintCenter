@@ -37,32 +37,13 @@
         <div class="flex flex-col sm:flex-row">
             <nav class="flex w-full sm:w-9/12 mb-4 sm:mb-0">
                 <ol role="list" class="flex items-center space-x-2">
-                    <li class="text-left">
-                        <div class="-m-1">
-                            <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                Home
-                            </a>
-                        </div>
-                    </li>
-
-                    <li class="text-left">
+                    <li v-for="item,index in breadcrumbs" :key="index" class="text-left">
                         <div class="flex items-center">
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                    Products
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="text-left">
-                        <div class="flex items-center">
-                            <span class="mx-2 text-gray-400">/</span>
-                            <div class="-m-1">
-                                <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page">
-                                    Coffee
-                                </a>
+                                <Link :href="item.link" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
+                                    {{ item.text }}
+                                </Link>
                             </div>
                         </div>
                     </li>
@@ -112,7 +93,7 @@
             </div>
 
             <!-- Design options -->
-            <div class="flex flex-col md:flex-row items-center md:space-x-8 mt-5 rounded-md p-4 shadow-lg">
+            <div v-if="selectDesignOption" class="flex flex-col md:flex-row items-center md:space-x-8 mt-5 rounded-md p-4 shadow-lg">
                 <!-- Design options buttons -->
                 <span class="font-bold">Do you have a Design?</span>
                 <div class="flex space-x-4 mt-4">
@@ -265,6 +246,10 @@ import axios, {
 } from 'axios';
 export default {
     props: {
+        breadcrumbs: {
+            type: Array,
+            required: true
+        },
         product: {
             type: Object,
             required: true
@@ -288,6 +273,7 @@ export default {
 
     data() {
         return {
+            selectDesignOption: true,
             files: [],
             progress: null,
             form: useForm({
@@ -391,6 +377,7 @@ export default {
         },
 
         design(option) {
+            this.selectDesignOption = false
             if (option == "Yes") {
                 this.form.designCost = 0
                 this.uploadDesign = true;

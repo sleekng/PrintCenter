@@ -52,6 +52,7 @@ Route::post('/product-attribute-options/store-api', function(Request $request){
 })->name('product-attribute-options.store-api');
 
 
+Route::get('all-get-product', [GeneralController::class,'products'])->name('all-get-product');
 
 
 Route::put('user-update/{id}', [UserController::class,'update'])->name('user.update');

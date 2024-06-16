@@ -14,7 +14,6 @@
                                         Home
                                     </a>
                                 </li>
-
                                 <li>
                                     <div class="flex items-center">
                                         <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -27,64 +26,55 @@
                         </nav>
                         <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">Add Product</h1>
                     </div>
-                    <div class="block sm:flex items-center md:divide-x md:divide-gray-100">
-
-                        <div class="flex items-center sm:justify-end w-full">
-
-                            <Link :href="route('attributes.create')" type="button" data-modal-toggle="add-product-modal" class="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">
-                            <svg class="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                            </svg>
-                            Create Attribute
-                            </Link>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="flex flex-col">
                 <div class="overflow-x-auto">
                     <div class="align-middle inline-block min-w-full">
                         <div class="shadow overflow-hidden">
-
-                            <!-- Place your body here -->
-
+                            <!-- Product Form -->
                             <div class="w-4/12 mx-auto my-10">
-
                                 <div v-if="$page.props.errors">
-                                    <div v-for="error in $page.props.errors" :key="error" class="text-red-600">
-                                        {{ error }}
-                                    </div>
+                                    <div v-for="error in $page.props.errors" :key="error" class="text-red-600">{{ error }}</div>
                                 </div>
-                                <div v-if="$page.props.flash.success" class="text-green-500">
-                                    {{ $page.props.flash.success }}
-                                </div>
+                                <div v-if="$page.props.flash.success" class="text-green-500">{{ $page.props.flash.success }}</div>
                                 <form @submit.prevent="submitForm">
-                                    <!-- Product Details -->
+                                    <!-- Product Fields -->
                                     <div class="mt-4 flex flex-col">
-                                        <label>Name:</label>
-                                        <input type="text" v-model="form.name" required>
-                                    </div>
-
-                                    <div class="mt-4 flex flex-col">
-
-                                        <label>Quantity Type</label>
-                                        <select v-model="form.quantityType" name="quantityType" id="quantityType">
-                                            <option value="type-1">Type 1 starts at (100)</option>
-                                            <option value="type-2">Type 2 starts (1)</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="mt-4 flex flex-col">
-                                        <label>Description:</label>
-                                        <textarea v-model="form.description"></textarea>
+                                        <label for="name">Product Name:</label>
+                                        <input type="text" v-model="form.name" id="name" @input="updateSlug">
                                     </div>
                                     <div class="mt-4 flex flex-col">
-
-                                        <label>Price:</label>
-                                        <input type="number" v-model="form.price" required>
+                                    <label for="quantityType" class="block  text-gray-700">Quantity Type</label>
+                                    <select v-model="form.quantityType" name="quantityType" id="quantityType">
+                                        <option value="type-1">Type 1 starts at (100)</option>
+                                        <option value="type-2">Type 2 starts (1)</option>
+                                        <option value="type-3">Type 3 starts (10)</option>
+                                    </select>
+                                </div>
+                                    <div class="mt-4 flex flex-col">
+                                        <label for="slug">Product Slug:</label>
+                                        <input type="text" v-model="form.slug" id="slug">
+                                    </div>
+                                    <div class="mt-4 flex flex-col">
+                                        <label for="description">Description:</label>
+                                        <textarea v-model="form.description" id="description"></textarea>
                                     </div>
 
-                                    <div class="my-4 mt-10  block">
+
+                                    <div class="mt-4">
+                                    <label for="price" class="block">Price Per unit:</label>
+                                    <input type="text" v-model="form.price" id="price" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="mt-4">
+                                    <label for="unit" class="block">Minimum Unit(s):</label>
+                                    <input type="text" v-model="form.unit" id="unit" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md">
+                                </div>
+
+
+
+                         <!--        Images -->
+                                <div class="my-4 mt-10  block">
                                         <label class="block text-sm font-medium text-gray-700 mb-4">Product Image:</label>
                                         <div class="flex  flex-col ">
                                             <div class="mb-4">
@@ -114,59 +104,78 @@
                                         </div>
                                     </div>
 
-                                    <!--             <div class="mb-4">
-                    <input type="file" @input="form.files[0] = $event.target.files[0]" />
-                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                    {{ form.progress.percentage }}%
-                    </progress>
-                </div>
 
-                <div class="mb-4">
-                    <input type="file" @input="form.files[1] = $event.target.files[0]" />
-                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                    {{ form.progress.percentage }}%
-                    </progress>
-                </div>
-
-                <div class="mb-4">
-                    <input type="file" @input="form.files[2] = $event.target.files[0]" />
-                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                    {{ form.progress.percentage }}%
-                    </progress>
-                </div> -->
-
-                                    <!-- ... (other fields) ... -->
-
-                                    <!-- Product Attributes -->
-                                    <h2 :class="attributes.length > 0 == null ? '' : 'text-red-600'" class=" mt-8">Attributes</h2>
-                                    <div v-for="attribute in attributes" :key="attribute.id">
-                                        <label>
-                                            <input type="checkbox" :value="attribute.id" v-model="form.attributes">
-                                            {{ attribute.name }} ({{ attribute.for_product }})
-                                        </label>
-                                    </div>
-                                    <!-- Product Categories -->
-                                    <h2 :class="categories.length > 0 ? '' : 'text-red-600'" class=" mt-8">Categories</h2>
+                                <div class=" mt-4">
+                                    <label>Select Categories:</label>
                                     <div v-for="category in categories" :key="category.id">
-                                        <label>
-                                            <input type="checkbox" :value="category.id" v-model="form.categories">
-                                            {{ category.name }}
-                                        </label>
+                                        <input type="checkbox" v-model="form.categories" :value="category.id" :id="'category_' + category.id">
+                                        <label :for="'category_' + category.id">{{ category.name }}</label>
                                     </div>
+                                </div>
 
-                                    <div class="my-4">
-                                        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
-                                            Update Product
+                                    <!-- Add Attribute Button -->
+                                    <div class="mt-6 flex justify-between items-center border-t py-4">
+                                        <h2 class="text-lg font-semibold">Attributes</h2>
+                                        <button @click="addAttribute" type="button" class="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2">
+                                            <svg class="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Add Attribute
                                         </button>
+                                    </div>
+                                    <!-- Attributes and Options -->
+                                    <div v-for="(attribute, index) in form.attributes" :key="index" class="mt-6 border p-4 rounded-lg">
+                                        <div class="flex justify-between items-center">
+                                            <h2 class="text-lg font-semibold">Attribute {{ index + 1 }}</h2>
+                                            <button @click="removeAttribute(index)" type="button" class="text-red-600 hover:text-red-800 font-medium text-sm">
+                                                Remove Attribute
+                                            </button>
+                                        </div>
+                                        <div class="mt-4 flex flex-col">
+                                            <label for="attribute-name">Name:</label>
+                                            <input type="text" v-model="attribute.name" :id="'attribute-name-' + index">
+                                        </div>
+                                        <div class="mt-4 flex flex-col">
+                                            <label for="attribute-type">Type:</label>
+                                            <select v-model="attribute.type" @change="updateOptions(index)" :id="'attribute-type-' + index">
+                                                <option value="text">Text</option>
+                                                <option value="radio">Radio</option>
+                                                <option value="radio_single">Radio Single</option>
+                                                <option value="textarea">Textarea</option>
+                                                <option value="select">Select</option>
+                                                <option value="number">Number</option>
+                                            </select>
+                                        </div>
+                                        <!-- Options for 'radio', 'radio_single', and 'select' types -->
+                                        <div v-if="['radio', 'radio_single', 'select'].includes(attribute.type)" class="mt-6">
+                                            <button @click="addOption(index)" type="button" class="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2">
+                                                <svg class="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                Add Option
+                                            </button>
+                                            <div v-for="(option, optIndex) in attribute.options" :key="optIndex" class="mt-4 flex flex-col">
+                                                <div class="flex justify-between items-center">
+                                                    <label :for="'option-value-' + index + '-' + optIndex">Option Value:</label>
+                                                    <button @click="removeOption(index, optIndex)" type="button" class="text-red-600 hover:text-red-800 font-medium text-sm">
+                                                        Remove Option
+                                                    </button>
+                                                </div>
+                                                <input type="text" v-model="option.value" :id="'option-value-' + index + '-' + optIndex">
+                                                <label :for="'option-cost-' + index + '-' + optIndex">Option Cost:</label>
+                                                <input type="text" v-model="option.cost" :id="'option-cost-' + index + '-' + optIndex">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-8 flex justify-end">
+                                        <button class="p-2 px-4 bg-green-600 text-white rounded-sm" type="submit">Update Product</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </AuthenticatedLayout>
 </template>
@@ -184,10 +193,7 @@ export default {
             type: Object,
             required: true,
         },
-        attributes: {
-            type: Array,
-            required: true,
-        },
+     
         categories: {
             type: Array,
             required: true,
@@ -199,31 +205,91 @@ export default {
         AuthenticatedLayout 
     },
 
+    mounted() {
+        // Populate form with existing product data on mount
+        this.form.name = this.product.name;
+        this.form.slug = this.product.slug;
+        this.form.description = this.product.description;
+        this.form.price = this.product.price;
+        this.form.quantityType = this.product.quantityType;
+        this.form.unit = this.product.unit;
+        // Populate categories based on existing product's categories
+        this.form.categories = this.product.categories.map(category => category.id);
+
+        // Assuming attributes are also populated similarly
+        this.form.attributes = this.product.attributes.map(attr => ({
+            name: attr.name,
+            slug: attr.slug,
+            type: attr.type,
+            options: attr.options.map(opt => ({
+                value: opt.value,
+                cost: opt.cost
+            }))
+        }));
+
+        // File handling logic if updating existing files
+        // Initialize form.files based on existing file URLs or IDs
+    },
+
     data() {
-        return {
+       return {
             form: useForm({
-                name: this.product.name,
-                productId: this.product.id,
-                description: this.product.description,
-                price: this.product.price,
-                quantityType: this.product.quantityType,
-                unit: this.product.unit,
-                files: [null, null, null], // Array to store new uploaded images
-                progress: null,
-                attributes: this.product.attributes.map(attr => attr.id),
-                categories: this.product.categories.map(cat => cat.id),
-            }),
+                name: '',
+                slug: '',
+                description: '',
+                price: '',
+                quantityType: '',
+                unit: '',
+                files: [null, null, null],
+                attributes: [],
+                categories: [],
+            })
         };
     },
 
     methods: {
-        async submitForm() {
-            try {
-                await this.form.post('/product-update');
-            } catch (error) {
-                console.error('Error updating product:', error);
-            }
+        updateSlug() {
+            // Function to update slug based on product name
+            this.form.slug = this.createSlug(this.form.name);
         },
+        createSlug(str) {
+            // Function to create slug from string
+            return str.toLowerCase()
+                .replace(/\s+/g, '-') // Replace spaces with -
+                .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+                .replace(/\-\-+/g, '-') // Replace multiple - with single -
+                .replace(/^-+/, '') // Trim - from start of text
+                .replace(/-+$/, ''); // Trim - from end of text
+        },
+
+
+        async submitForm() {
+            await this.form.put(route('product-update-product',this.product.id));
+        },
+        addAttribute() {
+            this.form.attributes.push({
+                name: '',
+                type: 'text',
+                options: []
+            });
+        },
+        removeAttribute(index) {
+            this.form.attributes.splice(index, 1);
+        },
+        updateOptions(index) {
+            // Reset options when changing attribute type
+            this.form.attributes[index].options = [];
+        },
+        addOption(attrIndex) {
+            this.form.attributes[attrIndex].options.push({
+                value: '',
+                cost: 0
+            });
+        },
+        removeOption(attrIndex, optIndex) {
+            this.form.attributes[attrIndex].options.splice(optIndex, 1);
+        },
+
 
         updateNewImage(index, file) {
             this.form.files.splice(index, 1, file);

@@ -14,6 +14,7 @@ class Product extends Model
         'quantityType',
         'name',
         'unit',
+        'slug',
         'description',
         'price',
 
@@ -26,8 +27,7 @@ class Product extends Model
     }
 
     public function attributes()
-{
-    return $this->belongsToMany(ProductAttribute::class);
-}
-
+    {
+        return $this->hasMany(ProductAttribute::class);
+    }
 }

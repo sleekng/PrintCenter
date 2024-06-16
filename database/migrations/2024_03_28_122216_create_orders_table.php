@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->decimal('total_amount', 8, 2);
-            $table->string('status')->default('pending');
             $table->string('shippingType');
             $table->string('DeliveryLocation')->nullable();
             $table->string('DeliveryState')->nullable();

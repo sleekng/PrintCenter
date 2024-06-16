@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     */
+        * Run the migrations.
+    */
     public function up(): void
     {
         Schema::create('product_attribute_options', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_attribute_id')->constrained()->onDelete('cascade');
             $table->string('value');
-            $table->string('for');
             $table->string('cost')->default('0');
             $table->timestamps();
         });

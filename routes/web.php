@@ -63,7 +63,7 @@ Route::resource('product', ProductController::class);
 Route::resource('category', CategoryController::class);
 Route::resource('attributes', ProductAttributeController::class);
 Route::resource('options', ProductAttributeOptionController::class);
-Route::post('/product-update', [ProductController::class, 'updateProduct'])->name('product-update-product');
+Route::put('/product-update/{product}', [ProductController::class, 'updateProduct'])->name('product-update-product');
 
 
 
@@ -79,7 +79,7 @@ Route::get('/upload-artwork', function(){
 Route::prefix('cart')->group(function () {
     Route::post('/add', [CartController::class, 'add']);
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
-    Route::put('/update/{productId}', [CartController::class, 'update']);
+    Route::put('/update/{cartItemId}', [CartController::class, 'update']);
     Route::put('/update-cart/{productId}', [CartController::class, 'updateCart']);
     Route::post('/clear', [CartController::class, 'clear']);
 });
