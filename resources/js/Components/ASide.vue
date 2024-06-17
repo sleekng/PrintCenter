@@ -29,6 +29,15 @@
                  <span class="ml-3">Orders</span>
                </Link>
              </li>
+             <li>
+                 <Link
+                   :href="route('quotes.index')"
+                   class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group "
+                 >
+                   <i class="fa-sharp fa-solid fa-arrow-up-right-from-square text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"></i>
+                   <span class="ml-3 flex-1 whitespace-nowrap">Order Request</span>
+                 </Link>
+               </li>
  
              <template v-if="$page.props.auth.user.role === 'admin'">
                <li>
@@ -49,7 +58,7 @@
                    <span class="ml-3 flex-1 whitespace-nowrap">Products</span>
                  </Link>
                </li>
-               <li>
+             <!--   <li>
                  <Link
                    :href="route('attributes.index')"
                    class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group "
@@ -57,16 +66,8 @@
                    <i class="fa-sharp fa-solid fa-arrow-up-right-from-square text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"></i>
                    <span class="ml-3 flex-1 whitespace-nowrap">Products Attribute</span>
                  </Link>
-               </li>
-               <li>
-                 <Link
-                   :href="route('options.index')"
-                   class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group "
-                 >
-                   <i class="fa-sharp fa-solid fa-arrow-up-right-from-square text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"></i>
-                   <span class="ml-3 flex-1 whitespace-nowrap">Products Option</span>
-                 </Link>
-               </li>
+               </li> -->
+
                <li>
                  <Link
                    :href="route('category.index')"

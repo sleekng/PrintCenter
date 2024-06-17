@@ -3,10 +3,12 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\ProductAttributeController;
 use App\Http\Controllers\ProductAttributeOptionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuotesRequestController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
@@ -47,6 +49,43 @@ Route::get('/', function () {
         'categories'=>$categories
     ]);
 })->name('home');
+
+Route::get('all-products', function () {
+   
+ /*    $featured = Category::with('products')->findOrFail(1); */
+
+    $products = Product::all();
+ 
+    $categories = Category::with('products')->get();
+
+    
+    return Inertia::render('AllProducts', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+
+        'products'=>$products,
+        'categories'=>$categories
+    ]); 
+})->name('all-products');
+
+Route::resource('/quotes', QuotesRequestController::class);
+
+
+
+Route::resource('/order-tracking', OrderStatusController::class);
+
+/* Route::get('/order-tracking', function () {
+    return Inertia::render('OrderTracking', [
+        'order' => [
+            'id' => 'Y34XDHR',
+            'expectedArrival' => '01/12/19',
+            'trackingNumber' => '234094567242423422898',
+            'status' => 'en_route'
+        ]
+    ]);
+})->name('order-tracking'); */
 
 
 

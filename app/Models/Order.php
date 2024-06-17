@@ -38,5 +38,9 @@ class Order extends Model
         return $this->hasOne(Delivery::class);
     }
 
+    public function status()
+    {
+        return $this->hasMany(OrderStatus::class);
+    }
 
 }

@@ -20,7 +20,6 @@
             </div>
         </div>
         <div class="">
-
             <ul class="lg:hidden items-center justify-end space-x-3 flex">
 
                 <li class="m">
@@ -35,9 +34,9 @@
                 </li>
 
                 <li class="">
-                    <Link href="/cart" class="border-b-2 border-white flex flex-col items-center space-x-0 px-2 relative font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
-                    <span class="text-[10px] absolute top-0">{{ CartCount }}</span>
-                    <i class="fa-sharp fa-light fa-cart-shopping block text-xl group-hover:hidden" alt="icon cart"></i>
+                    <Link href="/cart" class="border-b-2 border-white justify-center flex flex-col items-center space-x-0  px-2 relative font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+                        <span class="text-[14px] font-bold -mb-3">{{ CartCount }}</span>
+                        <i class="fa-sharp fa-light fa-cart-shopping block text-xl group-hover:hidden" alt="icon cart"></i>
                     </Link>
                 </li>
             </ul>
@@ -71,10 +70,10 @@
                 </li>
 
                 <li class="mb-4">
-                    <a href="/blog" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Get Quote</a>
+                    <Link :href="route('quotes.create')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Get Quote</Link>
                 </li>
                 <li class="mb-4">
-                    <a href="/contact#faq" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Track Orders</a>
+                    <Link :href="route('order-tracking.index')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Track Orders</Link>
                 </li>
                 <li class="mb-4">
                     <a href="/contact" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Contact</a>
@@ -170,11 +169,11 @@
                 </li>
 
                 <li class="mr-10">
-                    <a href="/blog" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Get Quote</a>
+                    <Link :href="route('quotes.create')" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Get Quote</Link>
                 </li>
 
                 <li class="mr-10">
-                    <a href="/contact#faq" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Track Orders</a>
+                    <Link :href="route('order-tracking.index')" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Track Orders</Link>
                 </li>
 
                 <li class="mr-10">
@@ -194,7 +193,7 @@
 
                 <li class="mr-10">
                     <Link href="/cart" class="border-b-2 border-white flex flex-col items-center space-x-0 px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
-                    <span class="font-bold text-sm">{{ CartCount }}</span>
+                    <span class="font-bold text-[14px]  -mb-3">{{ CartCount }}</span>
                     <i class="fa-sharp fa-light fa-cart-shopping block text-xl group-hover:hidden" alt="icon cart"></i>
                     </Link>
                 </li>

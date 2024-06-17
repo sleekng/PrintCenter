@@ -48,4 +48,9 @@ class OrderItem extends Model
     {
         return $this->hasManyThrough(ProductAttributeOption::class, OrderItemAttribute::class, 'order_item_id', 'id', 'id', 'option_id');
     }
+
+    public function status()
+    {
+        return $this->hasOne(OrderStatus::class);
+    }
 }
