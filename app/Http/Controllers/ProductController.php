@@ -82,6 +82,7 @@ class ProductController extends Controller
             'name' => $validatedData['name'],
             'unit' => $validatedData['unit'],
             'description' => $validatedData['description'],
+            'featured' => $request->featured,
             'price' => $validatedData['price'],
             'slug' => $validatedData['slug'],
             'quantityType' => $validatedData['quantityType'],
@@ -197,10 +198,12 @@ class ProductController extends Controller
     {
 
 
+ 
 
         $product->update([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
+            'featured' => $request->featured,
             'quantityType' => $request->input('quantityType'),
             'price' => $request->input('price'),
         ]);
@@ -219,6 +222,8 @@ class ProductController extends Controller
     
     public function updateProduct(Request $request, Product $product)
     {
+        
+ 
     
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -245,6 +250,7 @@ class ProductController extends Controller
             'name' => $validatedData['name'],
             'unit' => $validatedData['unit'],
             'description' => $validatedData['description'],
+            'featured' => $request->featured,
             'price' => $validatedData['price'],
             'slug' => $validatedData['slug'],
             'quantityType' => $validatedData['quantityType'],

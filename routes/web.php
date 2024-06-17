@@ -34,7 +34,7 @@ Route::get('/', function () {
    
  /*    $featured = Category::with('products')->findOrFail(1); */
 
-    $products = Product::all();
+    $products = Product::where('featured', 'Yes')->get();
  
     $categories = Category::with('products')->get();
 

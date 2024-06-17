@@ -56,6 +56,15 @@
                                         <label for="slug">Product Slug:</label>
                                         <input type="text" v-model="form.slug" id="slug">
                                     </div>
+                                    <div class="mt-4 flex  space-x-8">
+                                        <span>Add to Featured Product</span>
+                                        <label >
+                                            <input name="featured1" type="radio" value="No" v-model="form.featured" id="featured"> No
+                                        </label>
+                                        <label >
+                                            <input name="featured2" type="radio" value="Yes" v-model="form.featured" id="featured"> Yes
+                                        </label>
+                                    </div>
                                     <div class="mt-4 flex flex-col">
                                         <label for="description">Description:</label>
                                         <textarea v-model="form.description" id="description"></textarea>
@@ -209,6 +218,7 @@ export default {
         // Populate form with existing product data on mount
         this.form.name = this.product.name;
         this.form.slug = this.product.slug;
+        this.form.featured = this.product.featured;
         this.form.description = this.product.description;
         this.form.price = this.product.price;
         this.form.quantityType = this.product.quantityType;
@@ -237,6 +247,7 @@ export default {
                 name: '',
                 slug: '',
                 description: '',
+                featured: 'No',
                 price: '',
                 quantityType: '',
                 unit: '',

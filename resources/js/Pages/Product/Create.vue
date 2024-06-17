@@ -57,6 +57,11 @@
                                         <input type="text" v-model="form.slug" id="slug">
                                     </div>
                                     <div class="mt-4 flex flex-col">
+                                        <label for="featured">Add to Featured Product
+                                            <input type="checkbox"  v-model="form.featured" id="featured">
+                                        </label>
+                                    </div>
+                                    <div class="mt-4 flex flex-col">
                                         <label for="description">Description:</label>
                                         <textarea v-model="form.description" id="description"></textarea>
                                     </div>
@@ -190,6 +195,7 @@ export default {
                 description: '',
                 price: '',
                 quantityType: '',
+                featured: false,
                 unit: '',
                 files: [null, null, null], // Array to store uploaded images
                 attributes: [],

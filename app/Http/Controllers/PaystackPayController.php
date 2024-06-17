@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderImage;
 use App\Models\OrderItem;
 use App\Models\OrderItemAttribute;
+use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -114,7 +115,7 @@ class PaystackPayController extends Controller
                 $orderItem = OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $cartItem['product_id'],
-                   
+
                     'quantity' => $cartItem['quantity'],
                     'deliveryPeriod' => $cartItem['delivery'],
                     'hireDesigner' => $cartItem['hireDesigner'],
@@ -124,6 +125,13 @@ class PaystackPayController extends Controller
                     'price' => $product->price,
                 ]);
 
+                OrderStatus::create([
+                    'order_id'=>$order->id,
+                    'order_item_id'=>$orderItem->id,
+                    'tracking_number'=>'Ref-' . $request->reference ?? null,
+                    'status'=>'Pending',
+                    'expected_arrival_date'=>$expectedDeliveryDate->toDateString()
+                ]);
 
                 foreach ($cartItem['selectedOptions'] as $attribute_id => $option_id) {
 

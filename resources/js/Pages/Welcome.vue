@@ -94,7 +94,7 @@
     <section class="featured-products-section sm:py-10  ">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="section-header flex items-center justify-between font-bold">
-                <h1 class="section-title text-sm sm:text-3xl text-gray-800">
+                <h1 class="section-title text-md sm:text-3xl text-gray-800">
                   Popular Products
                 </h1>
                 <Link :href="route('all-products')" class="section-link whitespace-nowrap underline text-gray-600">
