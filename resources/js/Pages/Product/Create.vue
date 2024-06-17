@@ -56,9 +56,13 @@
                                         <label for="slug">Product Slug:</label>
                                         <input type="text" v-model="form.slug" id="slug">
                                     </div>
-                                    <div class="mt-4 flex flex-col">
-                                        <label for="featured">Add to Featured Product
-                                            <input type="checkbox"  v-model="form.featured" id="featured">
+                                    <div class="mt-4 flex  space-x-8">
+                                        <span>Add to Featured Product</span>
+                                        <label >
+                                            <input name="featured1" type="radio" value="No" v-model="form.featured" id="featured"> No
+                                        </label>
+                                        <label >
+                                            <input name="featured2" type="radio" value="Yes" v-model="form.featured" id="featured"> Yes
                                         </label>
                                     </div>
                                     <div class="mt-4 flex flex-col">
@@ -195,7 +199,7 @@ export default {
                 description: '',
                 price: '',
                 quantityType: '',
-                featured: false,
+                featured: 'No',
                 unit: '',
                 files: [null, null, null], // Array to store uploaded images
                 attributes: [],
