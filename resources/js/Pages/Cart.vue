@@ -278,8 +278,8 @@
                     <span class="w-1/5 border-b md:w-1/4"></span>
                 </div>
 
-                <div class="mt-4 flex justify-end">
-                    <button @click="guest()" type="button" class="px-6 py-3 text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300">
+                <div  class="mt-4 flex justify-end">
+                    <button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click="guest()" type="button" class="px-6 py-3 text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-300">
                         Continue as Guest
                     </button>
                 </div>

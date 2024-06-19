@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderItem;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
@@ -37,6 +38,21 @@ class OrderItemController extends Controller
     public function show(OrderItem $orderItem)
     {
         //
+    }
+
+    public function updateStatus(Request $request, $OrderitemId)
+    {
+        // Validate the request data
+        $request->validate([
+            'status' => 'required|string|in:Pending,Order Processed,Order Shipped,Order En Route,Order Arrived',
+        ]);
+
+        // Find the order item by ID and update the status
+        $orderStatus = OrderStatus::where('order_item_id', $OrderitemId)->firstOrFail();
+        $orderStatus->status = $request->status;
+        $orderStatus->save();
+
+        return response()->json(['message' => 'Order item status updated successfully.']);
     }
 
     /**

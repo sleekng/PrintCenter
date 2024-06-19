@@ -19,7 +19,7 @@
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
                                 <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page">
-                                   Get Quote
+                                    Get Quote
                                 </a>
                             </div>
                         </div>
@@ -34,26 +34,7 @@
 </section>
 
 <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-6 px-4">
-    <div v-if="$page.props.flash.message" class="inline-flex rounded-lg bg-green-light-6 px-[18px] py-4  animate-bounce animate-once animate-duration-[3000ms]">
 
-        <p class="flex items-center text-sm font-medium text-[#004434]">
-            <span class="mr-3 flex h-5 w-5 items-center justify-center rounded-full bg-green">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_961_15641)">
-                        <path d="M6.00002 0.337494C2.86877 0.337494 0.337524 2.86874 0.337524 5.99999C0.337524 9.13124 2.86877 11.6812 6.00002 11.6812C9.13128 11.6812 11.6813 9.13124 11.6813 5.99999C11.6813 2.86874 9.13128 0.337494 6.00002 0.337494ZM6.00002 10.8375C3.33752 10.8375 1.18127 8.66249 1.18127 5.99999C1.18127 3.33749 3.33752 1.18124 6.00002 1.18124C8.66252 1.18124 10.8375 3.35624 10.8375 6.01874C10.8375 8.66249 8.66252 10.8375 6.00002 10.8375Z" fill="white"></path>
-                        <path d="M7.61255 4.25624L5.3813 6.43124L4.3688 5.43749C4.20005 5.26874 3.93755 5.28749 3.7688 5.43749C3.60005 5.60624 3.6188 5.86874 3.7688 6.03749L4.9688 7.19999C5.0813 7.31249 5.2313 7.36874 5.3813 7.36874C5.5313 7.36874 5.6813 7.31249 5.7938 7.19999L8.21255 4.87499C8.3813 4.70624 8.3813 4.44374 8.21255 4.27499C8.0438 4.10624 7.7813 4.10624 7.61255 4.25624Z" fill="white"></path>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_961_15641">
-                            <rect width="12" height="12" fill="white"></rect>
-                        </clipPath>
-                    </defs>
-                </svg>
-            </span>
-            {{ $page.props.flash.message }}
-        </p>
-
-    </div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
         <div class="text-center mb-4">
 
@@ -67,7 +48,6 @@
                 <InputError class="mt-2" :message="form.errors.full_name" />
             </div>
 
-           
             <div class="mb-4">
                 <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
                 <input v-model="form.phone_number" id="phone_number" type="text" placeholder="Your phone number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -101,6 +81,26 @@
                 <textarea placeholder="Kindly give us the full delivery address" name="address" v-model="form.address" id="address" cols="30" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                 <InputError class="mt-2" :message="form.errors.address" />
             </div>
+            <div v-if="$page.props.flash.message" class="inline-flex rounded-lg bg-green-light-6 px-[18px] py-4  animate-bounce animate-once animate-duration-[3000ms]">
+
+                <p class="flex items-center text-sm font-medium text-[#004434]">
+                    <span class="mr-3 flex h-5 w-5 items-center justify-center rounded-full bg-green">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_961_15641)">
+                                <path d="M6.00002 0.337494C2.86877 0.337494 0.337524 2.86874 0.337524 5.99999C0.337524 9.13124 2.86877 11.6812 6.00002 11.6812C9.13128 11.6812 11.6813 9.13124 11.6813 5.99999C11.6813 2.86874 9.13128 0.337494 6.00002 0.337494ZM6.00002 10.8375C3.33752 10.8375 1.18127 8.66249 1.18127 5.99999C1.18127 3.33749 3.33752 1.18124 6.00002 1.18124C8.66252 1.18124 10.8375 3.35624 10.8375 6.01874C10.8375 8.66249 8.66252 10.8375 6.00002 10.8375Z" fill="white"></path>
+                                <path d="M7.61255 4.25624L5.3813 6.43124L4.3688 5.43749C4.20005 5.26874 3.93755 5.28749 3.7688 5.43749C3.60005 5.60624 3.6188 5.86874 3.7688 6.03749L4.9688 7.19999C5.0813 7.31249 5.2313 7.36874 5.3813 7.36874C5.5313 7.36874 5.6813 7.31249 5.7938 7.19999L8.21255 4.87499C8.3813 4.70624 8.3813 4.44374 8.21255 4.27499C8.0438 4.10624 7.7813 4.10624 7.61255 4.25624Z" fill="white"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_961_15641">
+                                    <rect width="12" height="12" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </span>
+                    {{ $page.props.flash.message }}
+                </p>
+
+            </div>
             <div class="flex items-center justify-between">
                 <button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Send Request
@@ -108,8 +108,8 @@
             </div>
         </form>
         <form v-if="$page.props.auth.user" @submit.prevent="loginSubmitForm">
-  
-           <div class="mb-4">
+
+            <div class="mb-4">
                 <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
                 <input v-model="form.phone_number" id="phone_number" type="text" placeholder="Your phone number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <InputError class="mt-2" :message="form.errors.phone_number" />
@@ -137,10 +137,30 @@
                 <textarea placeholder="Kindly give us the full delivery address" name="address" v-model="form.address" id="address" cols="30" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                 <InputError class="mt-2" :message="form.errors.address" />
             </div>
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between mt-4">
                 <button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Send Request
                 </button>
+            </div>
+            <div v-if="$page.props.flash.message" class="inline-flex rounded-lg bg-green-light-6 px-[18px] py-4 my-4  animate-bounce animate-once animate-duration-[3000ms]">
+
+                <p class="flex items-center text-sm font-medium text-[#004434]">
+                    <span class="mr-3 flex h-5 w-5 items-center justify-center rounded-full bg-green">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_961_15641)">
+                                <path d="M6.00002 0.337494C2.86877 0.337494 0.337524 2.86874 0.337524 5.99999C0.337524 9.13124 2.86877 11.6812 6.00002 11.6812C9.13128 11.6812 11.6813 9.13124 11.6813 5.99999C11.6813 2.86874 9.13128 0.337494 6.00002 0.337494ZM6.00002 10.8375C3.33752 10.8375 1.18127 8.66249 1.18127 5.99999C1.18127 3.33749 3.33752 1.18124 6.00002 1.18124C8.66252 1.18124 10.8375 3.35624 10.8375 6.01874C10.8375 8.66249 8.66252 10.8375 6.00002 10.8375Z" fill="white"></path>
+                                <path d="M7.61255 4.25624L5.3813 6.43124L4.3688 5.43749C4.20005 5.26874 3.93755 5.28749 3.7688 5.43749C3.60005 5.60624 3.6188 5.86874 3.7688 6.03749L4.9688 7.19999C5.0813 7.31249 5.2313 7.36874 5.3813 7.36874C5.5313 7.36874 5.6813 7.31249 5.7938 7.19999L8.21255 4.87499C8.3813 4.70624 8.3813 4.44374 8.21255 4.27499C8.0438 4.10624 7.7813 4.10624 7.61255 4.25624Z" fill="white"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_961_15641">
+                                    <rect width="12" height="12" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </span>
+                    {{ $page.props.flash.message }}
+                </p>
+
             </div>
         </form>
 
@@ -167,7 +187,9 @@ import Footer from "@/Components/Footer.vue";
 import SiteModal from "@/Components/SiteModal.vue";
 import Search from "@/Components/Search.vue"
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
+import {
+    v4 as uuidv4
+} from 'uuid';
 
 export default {
     components: {
@@ -197,7 +219,7 @@ export default {
         };
     },
     methods: {
-      notLoginSubmitForm() {
+        notLoginSubmitForm() {
             this.form.post(route('quotes.store'), {
                 preserveScroll: true,
                 onSuccess: () => this.form.reset()

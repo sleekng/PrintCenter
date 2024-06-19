@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('order_item_id');
             $table->string('tracking_number');
-            $table->enum('status', ['Pending','Order Processed', 'Order Shipped','Order En Route','Order Arrived'])->default('received');
+            $table->enum('status', ['Pending','Order Processed', 'Order Shipped','Order En Route','Order Arrived'])->default('Pending');
             $table->string('expected_arrival_date');
             $table->timestamps();
         });

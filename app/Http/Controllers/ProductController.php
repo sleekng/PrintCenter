@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::orderBy('created_at', 'desc')->paginate(10);
         return Inertia::render('Product/Index', [
             'products' =>  $products
         ]);

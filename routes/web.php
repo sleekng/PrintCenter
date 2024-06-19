@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\ProductAttributeController;
 use App\Http\Controllers\ProductAttributeOptionController;
@@ -30,11 +32,13 @@ use Inertia\Inertia;
 |
 */
 
+Route::put('/orders/{item}', [OrderItemController::class, 'updateStatus']);
+
 Route::get('/', function () {
    
  /*    $featured = Category::with('products')->findOrFail(1); */
 
-    $products = Product::where('featured', 'Yes')->get();
+    $products = Product::where('featured', 'Yes')->orderBy('created_at', 'desc')->get();;
  
     $categories = Category::with('products')->get();
 
@@ -54,7 +58,7 @@ Route::get('all-products', function () {
    
  /*    $featured = Category::with('products')->findOrFail(1); */
 
-    $products = Product::all();
+    $products = Product::orderBy('created_at', 'desc')->get();;
  
     $categories = Category::with('products')->get();
 
@@ -75,6 +79,13 @@ Route::resource('/quotes', QuotesRequestController::class);
 
 
 Route::resource('/order-tracking', OrderStatusController::class);
+
+
+Route::get('/contact', function () {
+    return Inertia::render('Contact');
+})->name('contact-us');
+
+Route::post('/contact', [ContactController::class, 'store']);
 
 /* Route::get('/order-tracking', function () {
     return Inertia::render('OrderTracking', [

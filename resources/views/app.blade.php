@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="{{ asset('fontawesome/css/sharp-light.css') }}">
 
 
+
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
@@ -29,5 +30,8 @@
     </head>
     <body class="font-sans antialiased ">
         @inertia
+
+        <script src="//code.jivosite.com/widget/yCZ1AXwlgM" async></script>
+
     </body>
 </html>

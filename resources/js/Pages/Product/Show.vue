@@ -63,14 +63,13 @@
                 <div class="hidden md:block">
                     <div class="font-bold"> {{ product.name }}</div>
                     <span v-for="selectedName in getSelectedOptionNames" :key="selectedName">
-                        {{ selectedName }} |
+                        <span v-if="selectedName != 'None'">{{ selectedName }}|</span>
                     </span>
                 </div>
             </div>
             <div class="hidden md:flex w-3/6 flex-col items-center">
                 <span>Quantity</span>
-                <span v-if="product.unit == 100">{{ form.quantity }}00</span>
-                <span v-if="product.unit == 1">{{ form.quantity }}</span>
+                <span class="text-lg font-bold">{{ form.quantity }}</span>
             </div>
             <div class="w-full md:w-3/6 flex items-center justify-center md:justify-end space-x-2">
                 <span class="text-4xl font-bold">₦{{ calculateCost }}</span>
@@ -89,13 +88,13 @@
         <div class="flex flex-col sm:flex-row">
             <nav class="flex w-full sm:w-9/12 mb-4 sm:mb-0">
                 <ol role="list" class="flex items-center space-x-2">
-                   
+
                     <li v-for="item,index in breadcrumbs" :key="index" class="text-left">
                         <div class="flex items-center">
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
                                 <Link :href="item.link" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                    {{ item.text }}
+                                {{ item.text }}
                                 </Link>
                             </div>
                         </div>
@@ -103,8 +102,6 @@
 
                 </ol>
             </nav>
-
-
 
             <search />
 
@@ -145,22 +142,6 @@
                     <h2 class=" text-base text-gray-900">Quantity</h2>
                     <div class="mt-3 flex select-none items-center gap-1">
                         <select v-model="form.quantity">
-                            <option value="1">100</option>
-                            <option value="2">200</option>
-                            <option value="3">300</option>
-                            <option value="4">400</option>
-                            <option value="5">500</option>
-                        </select>
-
-                    </div>
-
-                </div>
-
-                <div v-if="product.quantityType == 'type-2'" class="border-t  mt-2 py-4">
-
-                    <h2 class=" text-base text-gray-900">Quantity</h2>
-                    <div class="mt-3 flex select-none items-center gap-1">
-                        <select v-model="form.quantity">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -181,20 +162,75 @@
                     </div>
 
                 </div>
+                <div v-if="product.quantityType == 'type-2'" class="border-t  mt-2 py-4">
+
+                    <h2 class=" text-base text-gray-900">Quantity</h2>
+                    <div class="mt-3 flex select-none items-center gap-1">
+                        <select v-model="form.quantity">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="4">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                            <option value="2000">2000</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
                 <div v-if="product.quantityType == 'type-3'" class="border-t  mt-2 py-4">
 
                     <h2 class=" text-base text-gray-900">Quantity</h2>
                     <div class="mt-3 flex select-none items-center gap-1">
                         <select v-model="form.quantity">
-                            <option value="1">10</option>
-                            <option value="2">20</option>
-                            <option value="3">30</option>
-                            <option value="4">40</option>
-                            <option value="5">50</option>
-                            <option value="10">100</option>
-                            <option value="15">500</option>
-                            <option value="20">2000</option>
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                            <option value="2000">2000</option>
 
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div v-if="product.quantityType == 'type-4'" class="border-t  mt-2 py-4">
+
+                    <h2 class=" text-base text-gray-900">Quantity</h2>
+                    <div class="mt-3 flex select-none items-center gap-1">
+                        <select v-model="form.quantity">
+                            <option value="10">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                            <option value="2000">2000</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div v-if="product.quantityType == 'type-5'" class="border-t  mt-2 py-4">
+
+                    <h2 class=" text-base text-gray-900">Quantity</h2>
+                    <div class="mt-3 flex select-none items-center gap-1">
+                        <select v-model="form.quantity">
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
                         </select>
 
                     </div>
@@ -405,7 +441,7 @@ export default {
         return {
             mainImg: null,
             form: {
-                quantity: this.product.quantityType == 'type-1' ? 1 : '1',
+                quantity: this.product.unit,
                 delivery: null,
                 product_id: this.product.id,
                 selectedOptions: {},
@@ -440,11 +476,11 @@ export default {
                 if (attribute && attribute.options) {
                     let selectedOption = attribute.options.find(opt => opt.id == selectedOptionId);
                     if (selectedOption && selectedOption.cost) {
+
                         totalOptionsCost += parseFloat(selectedOption.cost);
                     }
                 }
             }
-
             if (this.form.delivery == 'Standard') {
                 deliveryCost = 1500
             }
@@ -473,7 +509,9 @@ export default {
                 let attribute = this.product.attributes.find(attr => attr.id == attributeId);
 
                 if (attribute && attribute.options) {
+
                     let selectedOption = attribute.options.find(opt => opt.id == selectedOptionId);
+
                     if (selectedOption && selectedOption.cost) {
                         selectedNames.push(selectedOption.value);
                     }

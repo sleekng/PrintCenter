@@ -65,7 +65,7 @@ class UserController extends Controller
     }
 
    public function loadUser(){
-            $users = User::all();
+            $users = User::orderBy('created_at', 'desc')->paginate(10);
             return response()->json(['message' => 'User created successfully', 'users'=> $users], 200);
     }
 

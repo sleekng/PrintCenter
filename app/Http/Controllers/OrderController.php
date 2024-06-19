@@ -35,10 +35,10 @@ class OrderController extends Controller
                 'orderItems.product',
                 'orderItems.attributes',
                 'orderItems.options',
+                'orderItems.status',
                 'orderItems.orderimages',
-            ])
-                ->get();
-
+            ])->orderBy('created_at', 'desc')->paginate(10);
+             
                 
                 return Inertia::render(
                     'Orders/Index',
@@ -53,9 +53,9 @@ class OrderController extends Controller
                                 'orderItems.product',
                                 'orderItems.attributes',
                                 'orderItems.options',
+                                'orderItems.status',
                                 'orderItems.orderimages',
-                                ])
-                                ->get();
+                                ])->orderBy('created_at', 'desc')->paginate(10);
                             
 
             return Inertia::render(

@@ -1,6 +1,14 @@
 <template>
 <AuthenticatedLayout>
     <div>
+        <!-- End Navbar -->
+        <div v-if="loading" class="fixed inset-0 z-[9999] flex items-center justify-center overflow-auto bg-black bg-opacity-50">
+            <div class=" rounded-lg w-1/2 p-8">
+                <div class="flex justify-center">
+                    <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+                </div>
+            </div>
+        </div>
         <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
             <div class="mb-1 w-full">
                 <div class="mb-4">
@@ -51,17 +59,17 @@
                         <table class="table-fixed min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase">S/N</th>
+                                    <th scope="col" class="p-4 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase">S/N</th>
                                     <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Order Number</th>
                                     <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Number of items</th>
+                                    <th scope="col" class="p-4 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase">Number of items</th>
                                     <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
                                     <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                                     <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <tr @click="showOrderModal(order)" v-for="(order, index) in orders" :key="index" class="hover:bg-gray-100 cursor-pointer">
+                                <tr @click="showOrderModal(order)" v-for="(order, index) in orders.data" :key="index" class="hover:bg-gray-100 cursor-pointer">
                                     <td class="p-4 whitespace-nowrap text-base font-medium text-gray-900">{{ index + 1 }}</td>
                                     <td class="p-4 whitespace-nowrap text-base font-medium text-gray-900">{{ order.reference_number }}</td>
                                     <td class="p-4 whitespace-nowrap text-base font-medium text-gray-900">{{ order.status }}</td>
@@ -77,6 +85,31 @@
                     </div>
                     <div v-if="orders.length == 0" class="flex justify-center mt-10">
                         <span>No order Found</span>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="mx-auto md:px-40">
+
+                        <nav class="bg-white px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6" aria-label="Pagination">
+                            <div class="hidden sm:block">
+                                <p class="text-sm text-gray-700">
+                                    Showing
+                                    <span class="font-medium">{{ orders.from }}</span>
+                                    to
+                                    <span class="font-medium">{{ orders.to }}</span>
+                                    of
+                                    <span class="font-medium">{{ orders.total }}</span>
+                                    results
+                                </p>
+                            </div>
+                            <div class="flex-1 flex justify-between sm:justify-end">
+                                <Link :href="orders.prev_page_url" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100" :disabled="!orders.prev_page_url">
+                                Previous
+                                </Link>
+                                <Link :href="orders.next_page_url" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100" :disabled="!orders.next_page_url">
+                                Next
+                                </Link>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -100,9 +133,20 @@
                         <div class="py-2 border-t flex justify-between"><strong>Order Amount:</strong> <span class="font-bold">₦{{ selectedOrder.total_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span></div>
                     </div>
                     <ul v-for=" orderItem , index in selectedOrder.order_items" :key="index" class="space-y-2 border-t-4 border-primary py-4">
-                        <li class=" pb-4 flex justify-end"><strong>item({{ index+1 }})</strong>
+                        <li class="pb-4 flex justify-between">
 
+                            <select v-model="orderItem.status.status" @change="updateStatus(orderItem)" :style="selectStyle(orderItem.status.status)">
+                                <option disabled>Select</option>
+                                <option value="Pending" style="color: red;">Pending</option>
+                                <option value="Order Processed" style="color: orange;">Order Processed</option>
+                                <option value="Order Shipped" style="color: blue;">Order Shipped</option>
+                                <option value="Order En Route" style="color: purple;">Order En Route</option>
+                                <option value="Order Arrived" style="color: green;">Order Arrived</option>
+                            </select>
+
+                            <strong>item({{ index + 1 }})</strong>
                         </li>
+
                         <li><strong>Delivery Type:</strong>
                             <span v-if="orderItem.deliveryPeriod == 'Standard'">{{ orderItem.deliveryPeriod }}
                                 <span>
@@ -124,9 +168,9 @@
                         <li><strong>Expected Delivery Date:</strong> <span>{{ dateTime(orderItem.expectedDeliveryDate) }}</span></li>
                         <li><strong>Quantity:</strong> <span>{{ orderItem.quantity }}</span></li>
                         <li v-if="orderItem.hireDesigner == 1"><strong>Hire Designer:</strong> <span>Yes</span></li>
-                       
+
                         <li v-if="orderItem.hireDesigner == 1"><strong>Design Description:</strong> <span>{{ orderItem.designDescription }}</span></li>
-                       
+
                         <li class="  py-4"><strong>Product Attribute</strong>
                             <span v-for="attribute in orderItem.attributes" :key="attribute" class=" block">
                                 <span class=" flex space-x-4">
@@ -134,7 +178,7 @@
                                 </span>
                             </span>
                         </li>
-                     
+
                         <!-- Include the Files component and pass the files data -->
                         <Files :files="orderItem.orderimages"></Files>
                     </ul>
@@ -172,11 +216,55 @@ export default {
         return {
             isOrderModalVisible: false,
             selectedOrder: {},
+            status: null,
+            loading: false
         };
     },
+    computed: {},
     methods: {
+        selectStyle(status) {
+            switch (status) {
+                case 'Pending':
+                    return {
+                        color: 'red'
+                    };
+                case 'Order Processed':
+                    return {
+                        color: 'orange'
+                    };
+                case 'Order Shipped':
+                    return {
+                        color: 'blue'
+                    };
+                case 'Order En Route':
+                    return {
+                        color: 'purple'
+                    };
+                case 'Order Arrived':
+                    return {
+                        color: 'green'
+                    };
+                default:
+                    return {
+                        color: 'black'
+                    };
+            }
+        },
+        updateStatus(orderItem) {
+            this.loading = !this.loading
+            axios.put(`/orders/${orderItem.status.order_item_id}`, {
+                    status: orderItem.status.status
+                })
+                .then(response => {
+                    // Handle success, e.g., show a notification or update the UI
+                    this.loading = this.loading ? false : this.loading
+                })
+                .catch(error => {
+                    // Handle error, e.g., show an error notification
+                    this.loading = this.loading ? false : this.loading
+                });
+        },
         getOptionName(orderItem, optionId) {
-            console.log(orderItem.options.find(option => option.id === optionId));
             const option = orderItem.options.find(option => option.id === optionId);
             return option ? option.value : 'Unknown';
         },
@@ -196,5 +284,25 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-  </style>
+<style lang="css" scoped>
+.loader {
+    border-top-color: #3498db;
+    border-left-color: #3498db;
+    animation: spin 1.5s infinite linear;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sticky-top {
+    position: fixed;
+    top: 200px;
+    width: inherit;
+    /* Maintain the width of the original container */
+    z-index: 1000;
+    /* Adjust the z-index if necessary */
+}
+</style>

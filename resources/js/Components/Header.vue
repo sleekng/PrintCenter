@@ -76,9 +76,9 @@
                     <Link :href="route('order-tracking.index')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Track Orders</Link>
                 </li>
                 <li class="mb-4">
-                    <a href="/contact" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Contact</a>
+                    <Link :href="route('contact-us')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Contact</Link>
                 </li>
-                <li class="mb-4">
+                <li class="mb-2">
                     <template v-if="$page.props.auth.user">
                         <Link :href="route('dashboard')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Dashboard</Link>
                     </template>
@@ -86,9 +86,9 @@
                         <Link :href="route('login')" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">Login</Link>
                     </template>
                 </li>
-                <li class="mb-4">
-                    <Link href="/cart" class="block font-hk text-lg text-secondary transition-all hover:font-bold hover:text-primary">
-                    <span class="font-bold text-sm">{{ CartCount }}</span>
+                <li class="mb-4 flex justify-start">
+                    <Link href="/cart" class="border-b-2 border-white flex flex-col items-center space-x-0 px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">
+                    <span class="font-bold text-[14px]  -mb-3">{{ CartCount }}</span>
                     <i class="fa-sharp fa-light fa-cart-shopping block text-xl"></i>
                     </Link>
                 </li>
@@ -177,7 +177,7 @@
                 </li>
 
                 <li class="mr-10">
-                    <a href="/contact" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Contact</a>
+                    <Link :href="route('contact-us')" class="block border-b-2 border-white px-2 font-hk text-lg text-secondary transition-all hover:border-primary hover:font-bold hover:text-primary">Contact</Link>
                 </li>
 
                 <li class="mr-10">

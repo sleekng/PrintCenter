@@ -60,7 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <tr @click="showQuoteModal(quote)" v-for="(quote, index) in QuoteRequest" :key="index" class="hover:bg-gray-100 cursor-pointer">
+                                <tr @click="showQuoteModal(quote)" v-for="(quote, index) in QuoteRequest.data" :key="index" class="hover:bg-gray-100 cursor-pointer">
                                     <td class="p-4 whitespace-nowrap text-base font-medium text-gray-900">{{ index + 1 }}</td>
                                     <td class="p-4 whitespace-nowrap text-base font-medium text-gray-900">{{ quote.full_name }}</td>
                                     <td class="p-4 whitespace-nowrap text-base font-medium text-gray-900">{{ quote.phone_number }}</td>
@@ -76,6 +76,34 @@
                     <div v-if="QuoteRequest.length == 0" class="flex justify-center mt-10">
                         <span>No Request Found</span>
                     </div>
+
+                    <!-- Pagination -->
+                     <div class="mx-auto md:px-40">
+
+                         <nav class="bg-white px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6" aria-label="Pagination">
+                             <div class="hidden sm:block">
+                                 <p class="text-sm text-gray-700">
+                                     Showing
+                                     <span class="font-medium">{{ QuoteRequest.from }}</span>
+                                     to
+                                     <span class="font-medium">{{ QuoteRequest.to }}</span>
+                                     of
+                                     <span class="font-medium">{{ QuoteRequest.total }}</span>
+                                     results
+                                 </p>
+                             </div>
+                             <div class="flex-1 flex justify-between sm:justify-end">
+                                 <Link :href="QuoteRequest.prev_page_url" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100" :disabled="!QuoteRequest.prev_page_url">
+                                     Previous
+                                 </Link>
+                                 <Link :href="QuoteRequest.next_page_url" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100" :disabled="!QuoteRequest.next_page_url">
+                                     Next
+                                 </Link>
+                             </div>
+                         </nav>
+                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -88,20 +116,20 @@
                     <form @submit.prevent="submitForm">
                         <div class="mb-4">
                             <label for="full_name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
-                            <input disabled  v-model="form.full_name" id="full_name" type="full_name" placeholder="Your first and last names" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <input disabled v-model="form.full_name" id="full_name" type="full_name" placeholder="Your first and last names" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
                             <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
-                            <input disabled  v-model="form.phone_number" id="phone_number" type="text" placeholder="Your phone number" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <input disabled v-model="form.phone_number" id="phone_number" type="text" placeholder="Your phone number" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
                             <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email address</label>
-                            <input disabled  v-model="form.email" id="email" type="email" placeholder="Your email address" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <input disabled v-model="form.email" id="email" type="email" placeholder="Your email address" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
 
                         </div>
                         <div class="mb-4">
                             <label for="request" class="block text-gray-700 text-sm font-bold mb-2">What would you like to Print?</label>
-                            <textarea disabled  name="request" v-model="form.request" id="" cols="30" rows="3" placeholder="Tell us the name and the quantity" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                            <textarea disabled name="request" v-model="form.request" id="" cols="30" rows="3" placeholder="Tell us the name and the quantity" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
 
                         </div>
                         <div class="mb-4 flex flex-col">
@@ -109,16 +137,16 @@
                                 How about the design (Artwork)?
                                 <p class=" font-normal text-sm">Let us know if you have the artwork for the print job.</p>
                             </label>
-                            <input disabled  v-model="form.artwork" id="email" type="text" placeholder="Your email address" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <input disabled v-model="form.artwork" id="email" type="text" placeholder="Your email address" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
                             <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Your Delivery Address</label>
-                            <textarea disabled  placeholder="Kindly give us the full delivery address" name="address" v-model="form.address" id="address" cols="30" rows="3" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
-             
+                            <textarea disabled placeholder="Kindly give us the full delivery address" name="address" v-model="form.address" id="address" cols="30" rows="3" class="shadow bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+
                         </div>
                         <div class="mt-6 text-right  absolute w-full bottom-0 left-0 bg-white p-4">
-                    <button @click="isQuoteModalVisible = false" class="px-4 py-2 bg-red-600 text-white rounded">Close</button>
-                </div>
+                            <button @click="isQuoteModalVisible = false" class="px-4 py-2 bg-red-600 text-white rounded">Close</button>
+                        </div>
                     </form>
 
                 </div>
@@ -129,7 +157,6 @@
 </AuthenticatedLayout>
 </template>
 
-    
 <script>
 import moment from 'moment';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -177,6 +204,5 @@ export default {
 };
 </script>
 
-    
 <style lang="scss" scoped>
       </style>

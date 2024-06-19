@@ -5,7 +5,7 @@
         <table class="table table-striped"> 
             <thead> </thead>
             <tbody> 
-                <tr v-for="user in users" :key="user.id">
+                <tr v-for="user in users.data" :key="user.id">
                     <td>{{ user.name }} {{ user.surname}}</td>
                     <td><button @click="editUser(user)" class="btn btn-primary">Edit</button></td>
                     <td><button @click="deleteUser(user.id)" class="btn btn-danger">Delete</button></td>

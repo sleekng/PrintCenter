@@ -28,12 +28,12 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col w-full">
                 <div class="overflow-x-auto">
                     <div class="align-middle inline-block min-w-full">
                         <div class="shadow overflow-hidden">
                             <!-- Product Form -->
-                            <div class="w-4/12 mx-auto my-10">
+                            <div class="md:w-4/12 px-4 mx-auto my-10">
                                 <div v-if="$page.props.errors">
                                     <div v-for="error in $page.props.errors" :key="error" class="text-red-600">{{ error }}</div>
                                 </div>
@@ -47,9 +47,11 @@
                                     <div class="mt-4 flex flex-col">
                                     <label for="quantityType" class="block  text-gray-700">Quantity Type</label>
                                     <select v-model="form.quantityType" name="quantityType" id="quantityType">
-                                        <option value="type-1">Type 1 starts at (100)</option>
-                                        <option value="type-2">Type 2 starts (1)</option>
-                                        <option value="type-3">Type 3 starts (10)</option>
+                                        <option value="type-1">Type 1 starts (1)</option>
+                                        <option value="type-2">Type 2 starts (10)</option>
+                                        <option value="type-3">Type 3 starts (12)</option>
+                                        <option value="type-4">Type 4 starts (50)</option>
+                                        <option value="type-5">Type 5 starts at (100)</option>
                                     </select>
                                 </div>
                                     <div class="mt-4 flex flex-col">
@@ -177,7 +179,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-8 flex justify-end">
-                                        <button class="p-2 px-4 bg-green-600 text-white rounded-sm" type="submit">Update Product</button>
+                                        <button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="p-2 px-4 bg-green-600 text-white rounded-sm" type="submit">Update Product</button>
                                     </div>
                                 </form>
                             </div>

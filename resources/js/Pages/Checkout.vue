@@ -205,7 +205,7 @@
                         </div>
                     </div>
                     <div class="flex justify-center">
-                        <button @click="submit" class="mt-4 mb-8 w-full text-center rounded-md bg-green-600 px-6 py-3 font-medium text-white">Proceed</button>
+                        <button :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click="submit" class="mt-4 mb-8 w-full text-center rounded-md bg-green-600 px-6 py-3 font-medium text-white">Proceed</button>
                     </div>
                 </div>
             </form>

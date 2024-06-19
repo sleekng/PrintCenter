@@ -129,7 +129,7 @@
 
                         <div class=" p-4">
                             <div v-for="(file, index) in files" :key="index" class="p-2 flex justify-between items-center hover:bg-gray-100 ">
-                                <span>{{ file.name }}</span>
+                                <span>Artwork {{ index+1 }}</span>
                                 <button :disabled="progress !=100" @click="removeFile(index)"><i class="fa-light fa-xmark text-xl text-red-600 "></i></button>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                             <!-- Display selected file names and remove button -->
                             <div class=" p-4">
                                 <div v-for="(file, index) in files" :key="index" class="p-2 flex justify-between items-center hover:bg-gray-100 ">
-                                    <span>{{ file.name }}</span>
+                                    <span>Artwork {{ index+1 }}</span>
                                     <button :disabled="progress !=100" @click="removeFile(index)"><i class="fa-light fa-xmark text-xl text-red-600 "></i></button>
                                 </div>
                             </div>

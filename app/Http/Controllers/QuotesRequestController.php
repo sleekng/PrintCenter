@@ -20,10 +20,10 @@ class QuotesRequestController extends Controller
 
         if ($user->isAdmin()) {
 
-            $QuoteRequest = QuotesRequest::all();
+            $QuoteRequest = QuotesRequest::orderBy('created_at', 'desc')->paginate(10);
             return Inertia::render('QuotesRequest/Index', ['QuoteRequest' => $QuoteRequest]);
         }else{
-            $QuoteRequest = QuotesRequest::where('user_id', Auth::id())->get();
+            $QuoteRequest = QuotesRequest::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10);
             return Inertia::render('QuotesRequest/Index', ['QuoteRequest' => $QuoteRequest]);
         }
 

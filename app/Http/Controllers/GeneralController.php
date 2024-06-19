@@ -238,7 +238,7 @@ class GeneralController extends Controller
     }
     
     public function products(){
-        $products = Product::all();
+        $products = Product::orderBy('created_at', 'desc')->get();;
         return response()->json([
             'products' => $products,
         ]);

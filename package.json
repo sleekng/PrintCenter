@@ -23,6 +23,7 @@
         "@splidejs/vue-splide": "^0.6.12",
         "jspdf": "^2.5.1",
         "uuid": "^10.0.0",
-        "vue-moment": "^4.1.0"
+        "vue-moment": "^4.1.0",
+        "vue-toastification": "^1.7.14"
     }
 }

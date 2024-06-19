@@ -84,7 +84,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr v-for="user,index in users" :key="index">
+                                        <tr v-for="user,index in users.data" :key="index">
                                             <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{ index+1 }}</td>
                                             <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{ user.first_name }}</td>
                                             <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{ user.last_name }}</td>
@@ -108,27 +108,30 @@
                                     </tbody>
                                 </table>
                                 <!-- Pagination -->
-                                <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
-                                    <div class="hidden sm:block">
-                                        <p class="text-sm text-gray-700">
-                                            Showing
-                                            <span class="font-medium">1</span>
-                                            to
-                                            <span class="font-medium">10</span>
-                                            of
-                                            <span class="font-medium">20</span>
-                                            results
-                                        </p>
-                                    </div>
-                                    <div class="flex-1 flex justify-between sm:justify-end">
-                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100">
+                                <div class="mx-auto md:px-40">
+
+                                    <nav class="bg-white px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6" aria-label="Pagination">
+                                        <div class="hidden sm:block">
+                                            <p class="text-sm text-gray-700">
+                                                Showing
+                                                <span class="font-medium">{{ users.from }}</span>
+                                                to
+                                                <span class="font-medium">{{ users.to }}</span>
+                                                of
+                                                <span class="font-medium">{{ users.total }}</span>
+                                                results
+                                            </p>
+                                        </div>
+                                        <div class="flex-1 flex justify-between sm:justify-end">
+                                            <Link :href="users.prev_page_url" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100" :disabled="!users.prev_page_url">
                                             Previous
-                                        </a>
-                                        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100">
+                                            </Link>
+                                            <Link :href="users.next_page_url" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100" :disabled="!users.next_page_url">
                                             Next
-                                        </a>
-                                    </div>
-                                </nav>
+                                            </Link>
+                                        </div>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -220,7 +223,7 @@
                                         <label class="block mb-2 text-sm font-medium text-gray-600" for="loggingPassword">Password</label>
                                     </div>
 
-                                    <input v-model="form.password" id="loggingPassword" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300" type="password"  autofocus autocomplete="password" />
+                                    <input v-model="form.password" id="loggingPassword" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300" type="password" autofocus autocomplete="password" />
 
                                 </div>
                                 <div class="mt-4">
@@ -259,7 +262,6 @@
 </AuthenticatedLayout>
 </template>
 
-    
 <script>
 import LoadingSpinner from "@/Components/loader.vue";
 import InputError from "@/Components/InputError.vue";
@@ -370,7 +372,6 @@ export default {
 };
 </script>
 
-    
 <style scoped>
 /* Add your custom styles here */
 </style>

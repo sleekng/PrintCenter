@@ -1,5 +1,5 @@
 <template>
-<div class="relative mt-10 flex text-white bg-gray-100" style="background-image: url('/storage/img/header-img.png');">
+<div class="relative  flex text-white bg-gray-100" style="background-image: url('/storage/img/header-img.png');">
     <div class="ml-auto h-56 w-full bg-contain bg-right bg-no-repeat lg:h-68" style="background-image: linear-gradient(
             to right, 
             rgba(0, 0, 0, 0.8), 

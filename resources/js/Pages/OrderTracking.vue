@@ -71,10 +71,10 @@
             <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
                 <h1 class="text-2xl font-bold mb-6 text-center">Order Tracking</h1>
                 <div class=" text-red-600">
-                  {{ error }}
+                    {{ error }}
                 </div>
                 <input v-model="form.orderNumber" @focus="error=null" class="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Enter your order number">
-                <button @click="trackOrder" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <button @click="trackOrder" :class="{ 'opacity-25': processing }" :disabled="processing" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
                     Track Order
                 </button>
 
@@ -86,9 +86,8 @@
                 <div v-for="orderItem in order.order_items" :key="orderItem" class=" border-t py-4">
                     <p class="text-sm text-gray-500">Product Name: {{ orderItem.product.name }}</p>
                     <p class="text-sm text-gray-500">Expected Arrival: {{ orderItem.expectedDeliveryDate }}</p>
-                    <p class="text-sm text-gray-500">Expected Arrival: {{ orderItem.DeliveryState }}</p>
                     <div class="mt-2">
-                        <h2 class="text-xl font-semibold">Status: <span class=" text-orange-500">{{ orderItem.status.status }}</span></h2>
+                        <h2 class="text-xl font-semibold">Status: <span :style="selectStyle(orderItem.status.status)">{{ orderItem.status.status }}</span></h2>
                     </div>
                 </div>
 
@@ -97,8 +96,17 @@
                 <button @click="ClearSearch" class="py-2 rounded-sm self-end px-8 bg-blue-600 text-white">Done</button>
 
             </div>
+
         </div>
 
+    </div>
+    <!-- Help section -->
+    <div class="w-full md:w-4/12 p-5 border shadow-lg rounded-md mt-8 md:mt-0">
+        <h2 class="text-center font-bold mb-4">Need Help?</h2>
+        <p class="mb-4">If you have any questions or need assistance with your design, feel free to contact our support team.</p>
+        <div class="flex justify-center">
+            <primary-button @click="contactSupport" class="px-8 md:px-16 py-2 md:py-4 font-bold bg-primary text-white rounded-md">Contact Support</primary-button>
+        </div>
     </div>
 </div>
 
@@ -138,19 +146,50 @@ export default {
     props: ['navcategories', 'CartCount', 'url', 'totalAmount', ],
     data() {
         return {
-          error:null,
+            error: null,
             form: useForm({
 
                 orderNumber: null,
             }),
             order: null,
             loading: false,
+            processing:false
         };
     },
     methods: {
+        selectStyle(status) {
+            switch (status) {
+                case 'Pending':
+                    return {
+                        color: 'red'
+                    };
+                case 'Order Processed':
+                    return {
+                        color: 'orange'
+                    };
+                case 'Order Shipped':
+                    return {
+                        color: 'blue'
+                    };
+                case 'Order En Route':
+                    return {
+                        color: 'purple'
+                    };
+                case 'Order Arrived':
+                    return {
+                        color: 'green'
+                    };
+                default:
+                    return {
+                        color: 'black'
+                    };
+            }
+        },
         trackOrder() {
+            this.processing =true
             if (!this.form.orderNumber) {
-              this.error = 'Kindly Enter Tracking Number'
+                this.error = 'Kindly Enter Tracking Number'
+                this.processing =false
                 // Display an error or prevent the request if orderNumber is empty
                 return;
             }
@@ -158,14 +197,19 @@ export default {
             this.loading = true;
             axios.get(`/order-tracking/${this.form.orderNumber}`)
                 .then((response) => {
-                    this.order = response.data.order;
                     
+
+                    this.order = response.data.order;
+                    this.processing = false
+
                 })
                 .catch((error) => {
-                  this.error = error.response.data.message;
+                    this.error = error.response.data.message;
+                    this.processing = false
                     console.error('Error fetching order:', error);
                 })
                 .finally(() => {
+                    this.processing = false
                     this.loading = false;
                 });
         },
