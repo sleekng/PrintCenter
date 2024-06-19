@@ -104,9 +104,11 @@
                                 <img :src="'/storage/'+product.product.product_img1" alt="" class="w-24 h-24 object-cover">
                                 <div class="md:ml-4 flex-grow">
                                     <h3 class="text-lg font-semibold">{{ product.product.name }}</h3>
-                                    <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-2'">
+                                   
+                                    <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-1'">
+
                                         <label class="mr-2">Quantity:</label>
-                                        <select @change="updateQuantity(product.product.id, product.quantity)" v-model="product.quantity" class=" p-1 border rounded-md text-center">
+                                        <select v-model="product.quantity" @change="updateQuantity(product.cartItemId, product.quantity)" class=" bg-gray-100   border-0">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -121,18 +123,58 @@
                                             <option value="20">20</option>
                                             <option value="50">50</option>
                                             <option value="70">70</option>
-
                                         </select>
                                     </div>
-                                    <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-1'">
+                                    <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-2'">
 
                                         <label class="mr-2">Quantity:</label>
                                         <select v-model="product.quantity" @change="updateQuantity(product.cartItemId, product.quantity)" class=" bg-gray-100   border-0">
-                                            <option value="1">100</option>
-                                            <option value="2">200</option>
-                                            <option value="3">300</option>
-                                            <option value="4">400</option>
-                                            <option value="5">500</option>
+                                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="4">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                            <option value="2000">2000</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-3'">
+
+                                        <label class="mr-2">Quantity:</label>
+                                        <select v-model="product.quantity" @change="updateQuantity(product.cartItemId, product.quantity)" class=" bg-gray-100   border-0">
+                                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                            <option value="2000">2000</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-4'">
+
+                                        <label class="mr-2">Quantity:</label>
+                                        <select v-model="product.quantity" @change="updateQuantity(product.cartItemId, product.quantity)" class=" bg-gray-100   border-0">
+                                            <option value="10">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                            <option value="2000">2000</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center mt-2" v-if="product.product.quantityType == 'type-5'">
+
+                                        <label class="mr-2">Quantity:</label>
+                                        <select v-model="product.quantity" @change="updateQuantity(product.cartItemId, product.quantity)" class=" bg-gray-100   border-0">
+                                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
                                         </select>
                                     </div>
                                 </div>
