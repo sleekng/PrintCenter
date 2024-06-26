@@ -32,6 +32,18 @@ use Inertia\Inertia;
 |
 */
 
+use Illuminate\Support\Facades\Artisan;
+
+
+Route::get('/create-storage-link', function () {
+    try {
+        Artisan::call('storage:link');
+        return 'The symbolic link has been created.';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
 Route::put('/orders/{item}', [OrderItemController::class, 'updateStatus']);
 
 Route::get('/', function () {
