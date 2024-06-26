@@ -96,10 +96,14 @@ class ProductController extends Controller
                 $name = $files[$i]->hashName(); // Generate a unique, random name...
                 /* $extension = $files[$i]->extension(); // Determine the file's extension based on the file's MIME type... */
 
-                $files[$i]->storeAs(
+            /*     $files[$i]->storeAs(
                     'public/' . str_replace(' ', '', $request->name),
                     $name
-                );
+                ); */
+
+                $files[$i]->store(str_replace(' ', '', $request->name), 'public');
+
+
 
                 if ($i == 0) {
                     $product->product_img1 = str_replace(' ', '', $request->name) . '/' . $name;
@@ -261,10 +265,8 @@ class ProductController extends Controller
         if ($files && count($files) > 0) {
             for ($i = 0; $i < count($files); $i++) {
                 $name = $files[$i]->hashName();
-                $files[$i]->storeAs(
-                    'public/' . str_replace(' ', '', $request->name),
-                    $name
-                );
+                
+                $files[$i]->store(str_replace(' ', '', $request->name), 'public');
     
                 if ($i == 0) {
                     $product->product_img1 = str_replace(' ', '', $request->name) . '/' . $name;

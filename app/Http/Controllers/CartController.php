@@ -367,11 +367,10 @@ class CartController extends Controller
         if ($request->hasFile('files')) {
             // Handle multiple file uploads
             foreach ($request->file('files') as $index => $file) {
-                // Generate a unique name for the file
-                $fileName = time() . '_' . $file->getClientOriginalName();
+           
+                $fileName = $file->hashName(); 
 
-                // Store the file in the storage/app/public directory
-                $file->storeAs('public/artwork', $fileName);
+                $file->store('artwork', 'public');
 
                 // Store the file path to use it later if needed
                 $uploadedFiles[] = 'artwork/' . $fileName;
