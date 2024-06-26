@@ -2,7 +2,7 @@
 /bootstrap/ssr
 /node_modules
 /public/hot
-/storage/*.key
+
 .env
 .env.backup
 .env.production

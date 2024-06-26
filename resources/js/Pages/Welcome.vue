@@ -117,7 +117,7 @@
                     <div class="product-price">
                         <span class="text-gray-400">starting at</span>
                         <div class="price-details flex justify-between items-center py-4">
-                            <span class="price text-2xl font-bold text-gray-800">₦{{ product.price }}</span>
+                            <span class="price text-2xl font-bold text-gray-800">₦{{ product.price * product.unit }}</span>
                             <span class="unit text-gray-600">Per {{ product.unit }} unit</span>
                         </div>
                     </div>
