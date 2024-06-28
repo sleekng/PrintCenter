@@ -119,7 +119,7 @@ Route::post('/contact', [ContactController::class, 'store']);
 })->name('product.details'); */
 
 
-Route::post('/cart/remove/{cartItemId}', [CartController::class, 'remove'])->name('cart.remove');
+
 
 Route::resource('product', ProductController::class);
 Route::resource('category', CategoryController::class);
@@ -128,7 +128,7 @@ Route::resource('options', ProductAttributeOptionController::class);
 Route::put('/product-update/{product}', [ProductController::class, 'updateProduct'])->name('product-update-product');
 
 
-
+Route::post('/image-upload', [ProductController::class, 'imageUpload'])->name('products.image-upload');
 
 Route::get('/upload-artwork', function(){
     return Inertia::render('Product/uploadArtwork');
@@ -146,6 +146,7 @@ Route::prefix('cart')->group(function () {
     Route::post('/clear', [CartController::class, 'clear']);
 });
 
+Route::post('/cart/remove/{cartItemId}', [CartController::class, 'remove'])->name('cart.remove');
 
 
 

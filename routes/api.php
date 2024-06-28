@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ProductAttributeOptionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\ProductAttributeOption;
 use Illuminate\Http\Request;
@@ -73,3 +74,4 @@ Route::get('/product-attribute-options/load-option', function(){
      }
 
 })->name('product-attribute-options.load-option');
+

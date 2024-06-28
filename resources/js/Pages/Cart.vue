@@ -1,6 +1,7 @@
 <template>
 <!--   Navbar -->
-<Header :navcategories="navcategories" :CartCount="CartCount" />
+<Header v-if="newCartlength != null"  :navcategories="navcategories" :CartCount="newCartlength"/>
+<Header v-if="newCartlength == null" :navcategories="navcategories" :CartCount="CartCount" />
 <!-- End Navbar -->
 <div v-if="loading" class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
     <div class=" rounded-lg w-1/2 p-8">
@@ -9,6 +10,7 @@
         </div>
     </div>
 </div>
+
 <section class="py-12 sm:py-16">
     <div class="container mx-auto px-4 sm:px-24">
         <div class="flex flex-col sm:flex-row">
@@ -378,6 +380,7 @@ export default {
 
     data() {
         return {
+            newCartlength:null,
             isSticky: false,
             canResetPassword: true,
             showModal: false,
@@ -543,10 +546,17 @@ export default {
         },
 
         removeItem(cartItemId, index) {
+                 this.cart.splice(index, 1);
 
-            this.cart.splice(index, 1);
-
-            router.post(route('cart.remove', cartItemId));
+            this.loading = !this.loading
+            this.$page.props.flash.success = false
+            this.$page.props.flash.message = false
+            // Update cart in API or local storage
+            axios.post(route('cart.remove', cartItemId)).then((response) => {
+                this.$page.props.flash.message = response.data.message
+                this.loading = this.loading ? false : this.loading
+                this.newCartlength = this.cart.length;
+            })
 
         },
 

@@ -222,12 +222,53 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
 
+     public function imageUpload(Request $request)
+     {
+
+ 
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+
+        $product = Product::findOrFail($request->product_id);
+
+        $file = request()->file('file');
+    
+        if ($request->file('file')) {
+           
+                $name = $file->hashName();
+                
+                
+                if ($request->imageIndex == 0) {
+                    $file->store(str_replace(' ', '', $request->name), 'public');
+                    $product->product_img1 = str_replace(' ', '', $request->name) . '/' . $name;
+                }
+                if ($request->imageIndex == 1) {
+                    $file->store(str_replace(' ', '', $request->name), 'public');
+                    $product->product_img2 = str_replace(' ', '', $request->name) . '/' . $name;
+                }
+                if ($request->imageIndex == 2) {
+                    $file->store(str_replace(' ', '', $request->name), 'public');
+                    $product->product_img3 = str_replace(' ', '', $request->name) . '/' . $name;
+                }
+         
+            $product->save();
+            return redirect()->back()->with('success','uploaded');
+        }
+    
+        return response()->json(['error' => 'Invalid file upload'], 400);
+
+
+
+     }
+
 
     
     public function updateProduct(Request $request, Product $product)
     {
         
-        return $request;
+ 
     
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -260,26 +301,7 @@ class ProductController extends Controller
             'quantityType' => $validatedData['quantityType'],
         ]);
     
-        $files = request()->file('files');
-    
-        if ($files && count($files) > 0) {
-            for ($i = 0; $i < count($files); $i++) {
-                $name = $files[$i]->hashName();
-                
-                $files[$i]->store(str_replace(' ', '', $request->name), 'public');
-    
-                if ($i == 0) {
-                    $product->product_img1 = str_replace(' ', '', $request->name) . '/' . $name;
-                }
-                if ($i == 1) {
-                    $product->product_img2 = str_replace(' ', '', $request->name) . '/' . $name;
-                }
-                if ($i == 2) {
-                    $product->product_img3 = str_replace(' ', '', $request->name) . '/' . $name;
-                }
-            }
-            $product->save();
-        }
+
     
         $product->attributes()->delete();
     

@@ -9,7 +9,7 @@
         <div class="flex flex-col md:flex-row h-full items-center justify-between">
             <div class="hidden md:flex w-full md:w-8/12 space-x-2 items-center">
                 <div class="w-12 md:w-16 flex-shrink-0">
-                    <img class="object-cover h-full" src="/storage/img/businesscard.jpg" alt="Business Card" />
+                    <img class="object-cover h-full" :src="'/storage/'+ product[0].product.product_img1" alt="Business Card" />
                 </div>
                 <div class="hidden md:block text-sm">
                     <div class="font-bold">{{ product[0].product.name }}</div>
@@ -20,8 +20,7 @@
             </div>
             <div class="hidden md:flex w-3/6 flex-col items-center">
                 <span class="text-sm md:text-base">Quantity</span>
-                <span v-if="product[0].product.unit == 100">{{ product[0].quantity }}00</span>
-                <span v-if="product[0].product.unit == 1">{{ product[0].quantity }}</span>
+                <span>{{ product[0].quantity }}</span>
             </div>
             <div class="flex w-full md:w-4/12  items-center justify-center md:justify-end space-x-2 mt-2 md:mt-0">
                 <span class="text-xl md:text-4xl font-bold">₦{{ calculateCost }}</span>
@@ -42,7 +41,7 @@
                             <span class="mx-2 text-gray-400">/</span>
                             <div class="-m-1">
                                 <Link :href="item.link" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800">
-                                    {{ item.text }}
+                                {{ item.text }}
                                 </Link>
                             </div>
                         </div>
@@ -124,13 +123,14 @@
                         </div>
                         <div v-if="progress !== null" class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
                             <div class="bg-green-600 text-[10px] text-white rounded-full dark:bg-green-500" :style="{ width: `${progress}%` }">{{ progress }}%</div>
+                            <span>Please wait...</span>
                         </div>
                         <!-- Display selected file names and remove button -->
 
                         <div class=" p-4">
                             <div v-for="(file, index) in files" :key="index" class="p-2 flex justify-between items-center hover:bg-gray-100 ">
                                 <span>Artwork {{ index+1 }}</span>
-                                <button :disabled="progress !=100" @click="removeFile(index)"><i class="fa-light fa-xmark text-xl text-red-600 "></i></button>
+                                <button  @click="removeFile(index)"><i class="fa-light fa-xmark text-xl text-red-600 "></i></button>
                             </div>
                         </div>
                     </div>
@@ -200,12 +200,13 @@
 
                             <div v-if="progress !== null" class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
                                 <div class="bg-green-600 text-[10px] text-white rounded-full dark:bg-green-500" :style="{ width: `${progress}%` }">{{ progress }}%</div>
+                                <span>Please wait...</span>
                             </div>
                             <!-- Display selected file names and remove button -->
                             <div class=" p-4">
                                 <div v-for="(file, index) in files" :key="index" class="p-2 flex justify-between items-center hover:bg-gray-100 ">
                                     <span>Artwork {{ index+1 }}</span>
-                                    <button :disabled="progress !=100" @click="removeFile(index)"><i class="fa-light fa-xmark text-xl text-red-600 "></i></button>
+                                    <button  @click="removeFile(index)"><i class="fa-light fa-xmark text-xl text-red-600 "></i></button>
                                 </div>
                             </div>
                         </div>
@@ -356,11 +357,18 @@ export default {
         },
 
         async uploadFile() {
+            const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB size limit
             const formData = new FormData();
 
-            this.files.forEach((file, index) => {
-                formData.append(`files[${index}]`, file);
-            });
+            for (let i = 0; i < this.files.length; i++) {
+                const file = this.files[i];
+                if (file.size > MAX_FILE_SIZE) {
+                    this.files = []
+                    alert(`File ${file.name} exceeds the maximum size limit of 5MB.`);
+                    return; // Exit the function if a file exceeds the limit
+                }
+                formData.append(`files[${i}]`, file);
+            }
 
             axios.post(route('design'), formData, {
                 headers: {
@@ -368,10 +376,15 @@ export default {
                 },
                 onUploadProgress: (progressEvent) => {
                     this.progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+
                 },
             }).then((response) => {
                 this.form.files = response.data.files;
                 console.log('Upload successful:', this.form.files);
+                if (this.progress == 100) {
+
+                    this.progress = null
+                }
             })
 
         },

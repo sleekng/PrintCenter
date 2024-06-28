@@ -58,7 +58,7 @@
         <div class="flex flex-col md:flex-row h-full items-center justify-between">
             <div class="hidden md:flex w-full md:w-8/12 space-x-2 items-center">
                 <div class="w-16 flex-shrink-0">
-                    <img class="object-cover h-full" src="/storage/img/businesscard.jpg" alt="Business Card" />
+                    <img class="object-cover h-full" :src="'/storage/'+mainImg" alt="Business Card" />
                 </div>
                 <div class="hidden md:block">
                     <div class="font-bold"> {{ product.name }}</div>
