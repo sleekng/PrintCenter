@@ -202,7 +202,7 @@ class ProductController extends Controller
     {
 
 
- 
+
 
         $product->update([
             'name' => $request->input('name'),
@@ -227,7 +227,7 @@ class ProductController extends Controller
     public function updateProduct(Request $request, Product $product)
     {
         
- 
+        return $request;
     
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',

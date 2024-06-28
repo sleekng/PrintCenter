@@ -199,6 +199,7 @@ import {
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 export default {
+    
     props: {
         product: {
             type: Object,
@@ -211,8 +212,26 @@ export default {
         },
     },
 
+    data() {
+       return {
+            form: useForm({
+                name: '',
+                slug: '',
+                description: '',
+                featured: 'No',
+                price: '',
+                quantityType: '',
+                unit: '',
+                files: [null, null, null],
+                attributes: [],
+                categories: [],
+            })
+        };
+    },
+
     components: {
         Link,
+        useForm,
         AuthenticatedLayout 
     },
 
@@ -243,23 +262,6 @@ export default {
         // Initialize form.files based on existing file URLs or IDs
     },
 
-    data() {
-       return {
-            form: useForm({
-                name: '',
-                slug: '',
-                description: '',
-                featured: 'No',
-                price: '',
-                quantityType: '',
-                unit: '',
-                files: [null, null, null],
-                attributes: [],
-                categories: [],
-            })
-        };
-    },
-
     methods: {
         updateSlug() {
             // Function to update slug based on product name
@@ -276,8 +278,8 @@ export default {
         },
 
 
-        async submitForm() {
-            await this.form.put(route('product-update-product',this.product.id));
+       submitForm() {
+            this.form.put(route('product-update-product',this.product.id));
         },
         addAttribute() {
             this.form.attributes.push({
