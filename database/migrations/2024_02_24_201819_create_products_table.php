@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('unit');
             $table->string('slug');
-            $table->boolean('featured');
+            $table->string('featured');
             $table->text('description')->nullable();
             $table->text('product_img1')->nullable();
             $table->text('product_img2')->nullable();
