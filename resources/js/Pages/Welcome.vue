@@ -95,17 +95,17 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="section-header flex items-center justify-between font-bold">
                 <h1 class="section-title text-md sm:text-3xl text-gray-800">
-                  Popular Products
+                    Popular Products
                 </h1>
                 <Link :href="route('all-products')" class="section-link whitespace-nowrap underline text-gray-600">
-                    See All <i class="fa fa-arrow-right ml-2"></i>
+                See All <i class="fa fa-arrow-right ml-2"></i>
                 </Link>
             </div>
         </div>
         <div class="products-grid container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-10 ">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                 <Link :href="route('product.show', product.id)" class="product-card card border shadow-sm bg-white" v-for="product in products" :key="product.id">
-                <div class="product-image overflow-hidden h-48 sm:h-60 md:h-72">
+                <div class="product-image overflow-hidden h-72 sm:h-60 md:h-72">
                     <img :src="'storage/'+product.product_img1" class="w-full h-full object-cover" alt="" />
                 </div>
                 <div class="product-details p-4">
