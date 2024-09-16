@@ -24,7 +24,7 @@
                             </li>
                         </ol>
                     </nav>
-                    <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">Add Product</h1>
+                    <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">Edit Product</h1>
                 </div>
             </div>
         </div>
@@ -54,6 +54,21 @@
                                         <option value="type-5">Type 5 starts at (100)</option>
                                     </select>
                                 </div>
+
+
+                                <div class="mt-4 flex flex-col">
+                                    <label for="product" class="block text-gray-700">"will you prefer a premium card click" Select goto Product</label>
+                                    <select v-model="form.goto_premium" id="product" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md">
+                                        <option value="">None</option>
+                                        <option v-for="product in products" :key="product.id" :value="product.id">
+                                            {{ product.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+
+
+
                                 <div class="mt-4 flex flex-col">
                                     <label for="slug">Product Slug:</label>
                                     <input type="text" v-model="form.slug" id="slug">
@@ -216,6 +231,10 @@ export default {
             type: Array,
             required: true,
         },
+        products: {
+            type: Array,
+            required: true,
+        },
     },
 
     components: {
@@ -233,6 +252,7 @@ export default {
         this.form.price = this.product.price;
         this.form.quantityType = this.product.quantityType;
         this.form.unit = this.product.unit;
+        this.form.goto_premium = this.product.goto_premium;
         // Populate categories based on existing product's categories
         this.form.categories = this.product.categories.map(category => category.id);
 
@@ -266,6 +286,7 @@ export default {
                 files: [],
                 attributes: [],
                 categories: [],
+                goto_premium: null, // Store selected product ID
             }),
             image1: useForm({
                 name: '',

@@ -137,7 +137,11 @@
                     <span>{{product.description}}</span>
                 </div>
 
-                <div v-if="product.quantityType == 'type-1'" class="border-t  mt-2 py-4">
+                <div class="pt-4 border-t my-4" v-if="product.goto_premium" >
+                    <Link :href="route('product.show', product.goto_premium)" class="text-green-600 font-bold underline uppercase hover:text-primary">Will you prefer a premium card click ></Link>
+                </div>
+
+                <div v-if="product.quantityType == 'type-1'" class="  mt-2 py-4">
 
                     <h2 class=" text-base text-gray-900">Quantity</h2>
                     <div class="mt-3 flex select-none items-center gap-1">
@@ -162,7 +166,7 @@
                     </div>
 
                 </div>
-                <div v-if="product.quantityType == 'type-2'" class="border-t  mt-2 py-4">
+                <div v-if="product.quantityType == 'type-2'" class="  mt-2 py-4">
 
                     <h2 class=" text-base text-gray-900">Quantity</h2>
                     <div class="mt-3 flex select-none items-center gap-1">
@@ -182,7 +186,7 @@
 
                 </div>
 
-                <div v-if="product.quantityType == 'type-3'" class="border-t  mt-2 py-4">
+                <div v-if="product.quantityType == 'type-3'" class="  mt-2 py-4">
 
                     <h2 class=" text-base text-gray-900">Quantity</h2>
                     <div class="mt-3 flex select-none items-center gap-1">
@@ -203,7 +207,7 @@
 
                 </div>
 
-                <div v-if="product.quantityType == 'type-4'" class="border-t  mt-2 py-4">
+                <div v-if="product.quantityType == 'type-4'" class="  mt-2 py-4">
 
                     <h2 class=" text-base text-gray-900">Quantity</h2>
                     <div class="mt-3 flex select-none items-center gap-1">
@@ -221,7 +225,7 @@
 
                 </div>
 
-                <div v-if="product.quantityType == 'type-5'" class="border-t  mt-2 py-4">
+                <div v-if="product.quantityType == 'type-5'" class="  mt-2 py-4">
 
                     <h2 class=" text-base text-gray-900">Quantity</h2>
                     <div class="mt-3 flex select-none items-center gap-1">

@@ -3,20 +3,23 @@
     <!-- Navbar -->
     <Header :navcategories="navcategories" :CartCount="CartCount" />
 
-    <section class="hero-section container mx-auto px-4 sm:px-6 lg:px-8" id="app">
+    <section class="hero-section container mx-auto px-4 sm:px-6 lg:px-8 "  id="app" style="background: url('/storage/img/home-bg2.jpg'); background-size: cover;">
         <div class="hero-slider relative splide splide--loop splide--ltr splide--draggable is-active is-initialized" id="splide04">
             <div>
                 <ul>
                     <li>
-                        <div class="hero-slide bg-cover bg-center bg-no-repeat relative" style="background-image:url('/storage/img/home-bg.jpg');">
+                        <div class="hero-slide    bg-right  bg-no-repeat relative" >
                             <div class="hero-content py-12 md:py-24 px-4 sm:px-10 md:px-12 lg:px-24 text-center sm:text-left mx-auto">
-                                <div class="hero-text-container relative p-4 rounded-md bg-white bg-opacity-75">
-                                    <div class="hero-text max-w-xl mx-auto sm:mx-0 text-gray-800">
-                                        <h1 class="text-4xl sm:text-6xl font-bold py-4">
-                                            Get Your Printing Jobs Done Now
-                                        </h1>
-                                        <p class="hero-subtitle text-lg sm:text-xl">
-                                            Top-quality printing services at competitive prices
+                                <div class="hero-text-container relative p-4 rounded-md  grid grid-cols-12">
+                                    <div class="hero-text max-w-2xl  mx-auto sm:mx-0 text-gray-800 col-span-12 md:col-span-6">
+                                        <div class=" px-4 block -mx-10 md:hidden  content-center items-center align-middle place-content-center justify-center">
+                                        <img src="/storage/img/home-bg-1.png" alt="">
+                                    </div>
+                                        <h2 class="text-5xl sm:text-8xl font-bold py-4 drop-shadow-lg">
+                                           <span class=" text-white">'NOW NOW'</span> <span class=" text-primary2">PRINTING!</span>
+                                        </h2>
+                                        <p class="hero-subtitle text-2xl text-white">
+                                           Highest Quality Prints... Lowest Price.
                                         </p>
                                         <div class="hero-search mt-6 sm:mt-8 w-full relative">
                                             <input type="text" v-model="searchTerm" @input="filterProducts" @keydown="showDropdown" @blur="hideDropdown" placeholder="Search for a product" class="search-input w-full pr-12 h-12 sm:h-16 border rounded-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -35,6 +38,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -43,6 +47,27 @@
             </div>
         </div>
     </section>
+
+<!-- Popular Products Section -->
+<div class=" py-8 bg-gray-100 container mx-auto">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Popular Products</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+        <!-- Display only the first 6 products using slice -->
+        <div v-for="product in FeaturedProducts" :key="product.id" class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <Link :href="route('product.show', product.id)" class="block text-center">
+                <div class="product-card-content">
+                    <div class="bg-gray-200 p-2 rounded-lg mb-4">
+                        <!-- Placeholder image, replace with product image -->
+                        <img :src="'storage/'+product.product_img1" alt="Product Image" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-800">{{ product.name }}</h3>
+                </div>
+            </Link>
+        </div>
+    </div>
+</div>
+
+
 
     <!-- Mobile Version -->
     <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:hidden block">
@@ -61,41 +86,43 @@
             <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
                 <img src="storage/img/icons8-shipping-64.png" class="h-16 w-16 mb-4 object-contain object-center transition-transform transform hover:scale-105" alt="Fast Turnaround">
                 <h3 class="font-hk text-xl font-semibold tracking-wide text-primary mb-2">
-                    Fast Turnaround Within Days
+                    Fast Turnaround Delivery within days
                 </h3>
                 <p class="font-hk text-base tracking-wide text-secondary-lighter">
-                    Your order gets to you within 3-7 working days via DHL.
+                    Our delivery options are tailor-made to meet your needs for fast Delivery , with Express and Overnight options 
                 </p>
             </div>
 
             <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
                 <img src="storage/img/icons8-guarantee-64.png" class="h-16 w-16 mb-4 object-contain object-center transition-transform transform hover:scale-105" alt="Top Quality">
                 <h3 class="font-hk text-xl font-semibold tracking-wide text-secondary2 mb-2">
-                    100% Top Quality
+                    Highest Quality Print
                 </h3>
                 <p class="font-hk text-base tracking-wide text-secondary-lighter">
-                    Only the finest materials, machines and people will be involved in fulfilling your order.
+                    Our obsession is quality print! We go to great length to ensure you get the best quality prints!
                 </p>
             </div>
 
             <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center">
                 <img src="storage/img/icons8-wallet-64.png" class="h-16 w-16 mb-4 object-contain object-center transition-transform transform hover:scale-105" alt="Affordable Services">
                 <h3 class="font-hk text-xl font-semibold tracking-wide text-secondary mb-2">
-                    Affordable Services
+                    Lowest Cost
                 </h3>
                 <p class="font-hk text-base tracking-wide text-secondary-lighter">
-                    All products are adequately priced to ensure you get value for your money at all times.
+                    Our bragging right is that we have the lowest comparable prices without compromising quality.
                 </p>
             </div>
         </div>
     </section>
+
+
 
     <!-- Featured Products Section -->
     <section class="featured-products-section sm:py-10  ">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="section-header flex items-center justify-between font-bold">
                 <h1 class="section-title text-md sm:text-3xl text-gray-800">
-                    Popular Products
+                    All Products
                 </h1>
                 <Link :href="route('all-products')" class="section-link whitespace-nowrap underline text-gray-600">
                 See All <i class="fa fa-arrow-right ml-2"></i>
@@ -131,6 +158,14 @@
             </div>
         </div>
     </section>
+
+    <div class="justify-center items-center  py-20 flex flex-row md:flex-col border-t">
+        <p class="w-1/2 text-center text-2xl font-bold">If what you want to print is a specialised job that’s not on our products list, don’t worry we’ve got you covered. You can get an instant quote , even for price comparison</p>
+
+        <div  class="my-10">
+            <Link :href="route('quotes.create')" class=" px-16 p-4   bg-primary text-white font-bold ">Get a Quote</Link>
+        </div>
+    </div>
 
     <!-- Footer -->
     <Footer />
@@ -187,6 +222,7 @@ export default {
     },
     props: {
         products: Object,
+        FeaturedProducts: Object,
         categories: Object,
         navcategories: Object,
         CartCount: Object,

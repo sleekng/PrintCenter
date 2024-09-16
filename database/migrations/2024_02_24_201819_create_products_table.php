@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('unit');
+            $table->string('goto_premium');
             $table->string('slug');
             $table->string('featured');
             $table->text('description')->nullable();

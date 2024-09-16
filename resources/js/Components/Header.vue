@@ -12,7 +12,7 @@
     <div class="relative z-40 py-6 shadow-xs lg:py-10">
         <div class="flex w-full items-center justify-center">
             <a href="/">
-                <img src="/storage/img/logo-main.png" class="h-auto w-20 sm:w-40" alt="logo">
+                <img src="/storage/img/logo-main.png" class="h-auto w-20 sm:w-28" alt="logo">
             </a>
             <div class="lg:hidden ml-auto">
 

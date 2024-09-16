@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<section class="py-12 sm:py-16">
+<section class="py-12 sm:py-16"> 
     <div class="container mx-auto px-4 sm:px-24">
         <div class="flex flex-col sm:flex-row">
             <nav class="flex w-full sm:w-9/12 mb-4 sm:mb-0">

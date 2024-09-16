@@ -41,11 +41,13 @@ class ProductController extends Controller
 
         $attributes = ProductAttribute::all();
         $categories = Category::all();
+        $products = Product::all();
 
 
         return Inertia::render('Product/Create', [
             'attributes' => $attributes,
-            'categories' => $categories
+            'categories' => $categories,
+            'products' => $products
         ]);
     }
 
@@ -60,6 +62,7 @@ class ProductController extends Controller
             'slug' => 'required|string|max:255|unique:products',
             'description' => 'nullable|string',
             'unit' => 'required|string|max:255',
+            'selectedProduct' => 'string|max:255',
             'quantityType' => 'required|string',
             'price' => 'required|numeric', // Ensure price is a numeric value
             'attributes' => 'required|array',
@@ -81,6 +84,7 @@ class ProductController extends Controller
         $product = Product::create([
             'name' => $validatedData['name'],
             'unit' => $validatedData['unit'],
+            'goto_premium' => $validatedData['selectedProduct'],
             'description' => $validatedData['description'],
             'featured' => $request->featured,
             'price' => $validatedData['price'],
@@ -187,11 +191,13 @@ class ProductController extends Controller
 
         // Fetch all categories for checkbox selection
         $categories = Category::all();
+        $products = Product::all();
 
         // Return view with necessary props for Inertia.js
         return inertia('Product/Edit', [
             'categories' => $categories,
             'product' => $product,
+            'products' => $products,
         ]);
     }
 
@@ -268,13 +274,13 @@ class ProductController extends Controller
     public function updateProduct(Request $request, Product $product)
     {
         
- 
     
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:products,slug,' . $product->id,
             'description' => 'nullable|string',
             'unit' => 'required|string|max:255',
+            'goto_premium' => 'max:255',
             'quantityType' => 'required|string',
             'price' => 'required|numeric',
             'attributes' => 'required|array',
@@ -294,6 +300,7 @@ class ProductController extends Controller
         $product->update([
             'name' => $validatedData['name'],
             'unit' => $validatedData['unit'],
+            'goto_premium' => $validatedData['goto_premium'],
             'description' => $validatedData['description'],
             'featured' => $request->featured,
             'price' => $validatedData['price'],

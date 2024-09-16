@@ -54,6 +54,20 @@
                                         <option value="type-5">Type 5 starts at (100)</option>
                                     </select>
                                 </div>
+
+
+
+                                <div class="mt-4 flex flex-col">
+                                    <label for="product" class="block text-gray-700">"will you prefer a premium card click" Select goto Product</label>
+                                    <select v-model="form.selectedProduct" id="product" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md">
+                                        <option value="">None</option>
+                                        <option v-for="product in products" :key="product.id" :value="product.id">
+                                            {{ product.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+
                                     <div class="mt-4 flex flex-col">
                                         <label for="slug">Product Slug:</label>
                                         <input type="text" v-model="form.slug" id="slug">
@@ -189,6 +203,10 @@ export default {
             type: Array,
             required: true,
         },
+        products: {
+            type: Array,
+            required: true,
+        },
     },
     components: {
         AuthenticatedLayout
@@ -206,6 +224,7 @@ export default {
                 files: [null, null, null], // Array to store uploaded images
                 attributes: [],
                 categories: [], // Object to store selected Categories options
+                selectedProduct: null, // Store selected product ID
             })
         };
     },

@@ -50,7 +50,8 @@ Route::get('/', function () {
    
  /*    $featured = Category::with('products')->findOrFail(1); */
 
-    $products = Product::where('featured', 'Yes')->orderBy('created_at', 'desc')->get();;
+    $FeaturedProducts = Product::where('featured', 'Yes')->orderBy('created_at', 'desc')->get();
+    $products = Product::all();
  
     $categories = Category::with('products')->get();
 
@@ -61,6 +62,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
 
+        'FeaturedProducts'=>$FeaturedProducts,
         'products'=>$products,
         'categories'=>$categories
     ]);
