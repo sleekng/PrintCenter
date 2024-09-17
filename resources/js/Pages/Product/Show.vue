@@ -355,12 +355,10 @@
                         <i class="fa-thin fa-globe text-4xl text-tertiary mr-2"></i>
                         <div>
                             <h1 class="text-xl font-bold">
-                                Fast Turnaround Within Days
+                                Fast Turnaround Delivery within days
                             </h1>
                             <p class="mt-2">
-                                Your order gets to you within 3-7 working
-                                days via DHL or our very own Printivo
-                                Direct.
+                                Our delivery options are tailor-made to meet your needs for fast Delivery , with Express and Overnight options.
                             </p>
                         </div>
                     </div>
@@ -368,12 +366,10 @@
                         <i class="fa-sharp fa-solid fa-badge-check text-4xl text-tertiary mr-2"></i>
                         <div>
                             <h1 class="text-xl font-bold">
-                                100% Top Quality
+                                Highest Quality Print
                             </h1>
                             <p class="mt-2">
-                                Only the finest materials, machines and
-                                people will be involved in fulfilling your
-                                order.
+                                Our obsession is quality print! We go to great length to ensure you get the best quality prints!
                             </p>
                         </div>
                     </div>
@@ -382,11 +378,10 @@
 
                         <div>
                             <h1 class="text-xl font-bold">
-                                Affordable Services
+                                Lowest Cost
                             </h1>
                             <p class="mt-2">
-                                All products are adequately priced to ensure
-                                you get value for your money at all times.
+                                Our bragging right is that we have the lowest comparable prices without compromising quality.
                             </p>
                         </div>
                     </div>

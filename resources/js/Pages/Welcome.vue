@@ -192,23 +192,23 @@ export default {
             cards: [{
                     icon: 'shipping',
                     alt: 'Fast Turnaround',
-                    title: 'Fast Turnaround Within Days',
+                    title: 'Fast Turnaround Delivery within days',
                     titleColor: 'text-primary',
-                    description: 'Your order gets to you within 3-7 working days via DHL.'
+                    description: 'Our delivery options are tailor-made to meet your needs for fast Delivery , with Express and Overnight options.'
                 },
                 {
                     icon: 'guarantee',
                     alt: 'Top Quality',
-                    title: '100% Top Quality',
+                    title: 'Highest Quality Print',
                     titleColor: 'text-secondary2',
-                    description: 'Only the finest materials, machines and people will be involved in fulfilling your order.'
+                    description: 'Our obsession is quality print! We go to great length to ensure you get the best quality prints!'
                 },
                 {
                     icon: 'wallet',
                     alt: 'Affordable Services',
-                    title: 'Affordable Services',
+                    title: 'Lowest Cost',
                     titleColor: 'text-secondary',
-                    description: 'All products are adequately priced to ensure you get value for your money at all times.'
+                    description: 'Our bragging right is that we have the lowest comparable prices without compromising quality.'
                 }
             ],
             autoTimer: null,
