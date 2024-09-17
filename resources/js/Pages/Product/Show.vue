@@ -54,30 +54,31 @@
 
 <!-- Bottom Total Cost -->
 <div class="fixed bottom-0 left-0 w-full h-[100px] flex justify-center items-center backdrop-blur-sm bg-primary2/80 z-50">
-    <div class="container mx-auto px-4 md:px-24">
-        <div class="flex flex-col md:flex-row h-full items-center justify-between">
-            <div class="hidden md:flex w-full md:w-8/12 space-x-2 items-center">
-                <div class="w-16 flex-shrink-0">
-                    <img class="object-cover h-full" :src="'/storage/'+mainImg" alt="Business Card" />
-                </div>
-                <div class="hidden md:block">
-                    <div class="font-bold"> {{ product.name }}</div>
-                    <span v-for="selectedName in getSelectedOptionNames" :key="selectedName">
-                        <span v-if="selectedName != 'None'">{{ selectedName }}|</span>
-                    </span>
-                </div>
-            </div>
-            <div class="hidden md:flex w-3/6 flex-col items-center">
-                <span>Quantity</span>
-                <span class="text-lg font-bold">{{ form.quantity }}</span>
-            </div>
-            <div class="w-full md:w-3/6 flex items-center justify-center md:justify-end space-x-2">
-                <span class="text-4xl font-bold">₦{{ calculateCost }}</span>
-                <primary-button @click="setDeliveryDate()" class="p-2 md:p-4 px-4 md:px-8 rounded-sm bg-primary font-bold text-white">Order Now</primary-button>
-            </div>
+  <div class="container mx-auto px-4 md:px-24">
+    <div class="flex flex-col md:flex-row h-full items-center justify-between">
+      <div class="hidden md:flex w-full md:w-8/12 space-x-2 items-center">
+        <div class="w-16 flex-shrink-0">
+          <img class="object-cover h-full" :src="'/storage/'+mainImg" alt="Product image" />
         </div>
+        <div class="hidden md:block">
+          <div class="font-bold whitespace-nowrap"> {{ product.name }}</div>
+          <span class="product-option" v-for="selectedName in truncatedOptions" :key="selectedName">
+            <span v-if="selectedName != 'None'">{{ selectedName }}|</span>
+          </span>
+        </div>
+      </div>
+      <div class="hidden md:flex w-3/6 flex-col items-center">
+        <span>Quantity</span>
+        <span class="text-lg font-bold">{{ form.quantity }}</span>
+      </div>
+      <div class="w-full md:w-3/6 flex items-center justify-center md:justify-end space-x-2">
+        <span class="text-4xl font-bold">₦{{ calculateCost }}</span>
+        <primary-button @click="setDeliveryDate()" class="p-2 md:p-4 px-4 md:px-8 rounded-sm bg-primary font-bold text-white">Order Now</primary-button>
+      </div>
     </div>
+  </div>
 </div>
+
 
 <!--   Navbar -->
 <Header :navcategories="navcategories" :CartCount="CartCount" />
@@ -465,6 +466,11 @@ export default {
         };
     },
     computed: {
+        truncatedOptions() {
+      return this.getSelectedOptionNames.map(option => {
+        return option.length > 15 ? option.substring(0, 15) + '...' : option;
+      });
+    },
         calculateCost() {
             let totalOptionsCost = 0;
             let deliveryCost = 0;

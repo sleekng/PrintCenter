@@ -111,7 +111,7 @@
                     </div>
 
                     <!-- Dropdown Content -->
-                    <div class="pointer-events-none absolute top-0 left-0 right-0 z-50 mx-auto mt-44 w-2/3 pt-6 opacity-0 group-hover:pointer-events-auto group-hover:opacity-100">
+                    <div class="pointer-events-none absolute top-0 left-0 right-0 z-50 mx-auto mt-40 w-2/3 pt-6 opacity-0 group-hover:pointer-events-auto group-hover:opacity-100">
                         <div class="relative flex rounded-b bg-white shadow-lg transition-all">
 
                             <!-- Categories List -->

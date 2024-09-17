@@ -3,23 +3,24 @@
     <!-- Navbar -->
     <Header :navcategories="navcategories" :CartCount="CartCount" />
 
-    <section class="hero-section container mx-auto px-4 sm:px-6 lg:px-8 "  id="app" style="background: url('/storage/img/home-bg2.jpg'); background-size: cover;">
+    <section class="hero-section container relative mx-auto px-4 sm:px-6 lg:px-8 " id="app" style="background: url('/storage/img/home-bg2.jpg'); background-size: cover; background-position: right;">
+        <div class=" bg-black h-full w-full z-20   opacity-50  left-0 absolute"></div>
         <div class="hero-slider relative splide splide--loop splide--ltr splide--draggable is-active is-initialized" id="splide04">
             <div>
                 <ul>
                     <li>
-                        <div class="hero-slide    bg-right  bg-no-repeat relative" >
-                            <div class="hero-content py-12 md:py-24 px-4 sm:px-10 md:px-12 lg:px-24 text-center sm:text-left mx-auto">
-                                <div class="hero-text-container relative p-4 rounded-md  grid grid-cols-12">
+                        <div class="hero-slide    bg-right  bg-no-repeat relative">
+                            <div class="hero-content py-12  px-4 sm:px-10 md:px-12 lg:px-24 text-center sm:text-left mx-auto">
+                                <div class="hero-text-container z-30 relative p-4 rounded-md  grid grid-cols-12">
                                     <div class="hero-text max-w-2xl  mx-auto sm:mx-0 text-gray-800 col-span-12 md:col-span-6">
-                                        <div class=" px-4 block -mx-10 md:hidden  content-center items-center align-middle place-content-center justify-center">
-                                        <img src="/storage/img/home-bg-1.png" alt="">
-                                    </div>
-                                        <h2 class="text-5xl sm:text-8xl font-bold py-4 drop-shadow-lg">
-                                           <span class=" text-white">'NOW NOW'</span> <span class=" text-primary2">PRINTING!</span>
+                                       
+                                        <h2 class="text-5xl sm:text-8xl font-bold py-4 drop-shadow-lg 
+                                        ">
+                                            <span class=" text-[32px] text-white drop-shadow-2xl">FOR YOUR</span> <br>
+                                            <span class=" text-white drop-shadow-2xl">'NOW NOW'</span> <span class=" text-primary2">PRINTING!</span>
                                         </h2>
                                         <p class="hero-subtitle text-2xl text-white">
-                                           Highest Quality Prints... Lowest Price.
+                                            Highest Quality Prints... Lowest Price.
                                         </p>
                                         <div class="hero-search mt-6 sm:mt-8 w-full relative">
                                             <input type="text" v-model="searchTerm" @input="filterProducts" @keydown="showDropdown" @blur="hideDropdown" placeholder="Search for a product" class="search-input w-full pr-12 h-12 sm:h-16 border rounded-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -29,16 +30,16 @@
                                             <!-- Vue Dropdown -->
                                             <div v-if="isDropdownVisible" class="dropdown-bg absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md shadow-md">
                                                 <div v-if="filteredProducts.length > 0" class="dropdown-content p-4">
-                                                    <Link v-for="(product, index) in filteredProducts" :key="index" :href="route('product.show', product.id)" class="dropdown-item   py-2 flex  hover:bg-gray-100">
+                                                <Link v-for="(product, index) in filteredProducts" :key="index" :href="route('product.show', product.id)" class="dropdown-item  w-full h-full p-2  py-2 flex  hover:bg-gray-100">
                                                     <img :src="'storage/'+product.product_img1" alt="Product Image" class="w-10 h-10 mr-2">
                                                     <span>{{ product.name }}</span>
-                                                    </Link>
+                                                </Link>
                                                 </div>
                                                 <div v-else class="dropdown-empty p-4 text-gray-500">No matching products found</div>
                                             </div>
                                         </div>
                                     </div>
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -48,26 +49,24 @@
         </div>
     </section>
 
-<!-- Popular Products Section -->
-<div class=" py-8 bg-gray-100 container mx-auto">
-    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Popular Products</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-        <!-- Display only the first 6 products using slice -->
-        <div v-for="product in FeaturedProducts" :key="product.id" class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-            <Link :href="route('product.show', product.id)" class="block text-center">
-                <div class="product-card-content">
+    <!-- Popular Products Section -->
+    <div class=" py-8 bg-gray-100 container mx-auto">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Popular Products</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+            <!-- Display only the first 6 products using slice -->
+            <div v-for="product in FeaturedProducts" :key="product.id" class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <Link :href="route('product.show', product.id)" class="block text-center">
+                <div class="product-card-content text-center">
                     <div class="bg-gray-200 p-2 rounded-lg mb-4">
                         <!-- Placeholder image, replace with product image -->
                         <img :src="'storage/'+product.product_img1" alt="Product Image" class="w-full h-32 object-cover rounded-lg">
                     </div>
                     <h3 class="text-sm font-semibold text-gray-800">{{ product.name }}</h3>
                 </div>
-            </Link>
+                </Link>
+            </div>
         </div>
     </div>
-</div>
-
-
 
     <!-- Mobile Version -->
     <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:hidden block">
@@ -89,7 +88,7 @@
                     Fast Turnaround Delivery within days
                 </h3>
                 <p class="font-hk text-base tracking-wide text-secondary-lighter">
-                    Our delivery options are tailor-made to meet your needs for fast Delivery , with Express and Overnight options 
+                    Our delivery options are tailor-made to meet your needs for fast Delivery , with Express and Overnight options
                 </p>
             </div>
 
@@ -114,8 +113,6 @@
             </div>
         </div>
     </section>
-
-
 
     <!-- Featured Products Section -->
     <section class="featured-products-section sm:py-10  ">
@@ -159,10 +156,10 @@
         </div>
     </section>
 
-    <div class="justify-center items-center  py-20 flex flex-row md:flex-col border-t">
-        <p class="w-1/2 text-center text-2xl font-bold">If what you want to print is a specialised job that’s not on our products list, don’t worry we’ve got you covered. You can get an instant quote , even for price comparison</p>
+    <div class="justify-center items-center  py-20 flex flex-col  border-t">
+        <p class="md:w-1/2 text-center text-2xl font-bold">If what you want to print is a specialised job that’s not on our products list, don’t worry we’ve got you covered. You can get an instant quote , even for price comparison</p>
 
-        <div  class="my-10">
+        <div class="my-10">
             <Link :href="route('quotes.create')" class=" px-16 p-4   bg-primary text-white font-bold ">Get a Quote</Link>
         </div>
     </div>

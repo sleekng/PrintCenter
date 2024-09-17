@@ -69,21 +69,10 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('all-products', function () {
-   
- /*    $featured = Category::with('products')->findOrFail(1); */
-
-    $products = Product::orderBy('created_at', 'desc')->get();;
- 
+    
     $categories = Category::with('products')->get();
-
     
     return Inertia::render('AllProducts', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-
-        'products'=>$products,
         'categories'=>$categories
     ]); 
 })->name('all-products');
