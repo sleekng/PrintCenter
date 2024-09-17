@@ -62,7 +62,7 @@
   
           <!-- Product List by Category -->
           <div v-for="category in categories" :key="category.id" >
-            <div v-if="filteredCategoryProducts.length > 0">
+            <div v-if="filteredCategoryProducts.length > 0 && category.name != 'All Products'">
 
                 <h2 class="text-2xl font-bold my-4 mt-8">{{ category.name }}</h2> <!-- Display category name -->
                 <div class="products-grid grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-6">
