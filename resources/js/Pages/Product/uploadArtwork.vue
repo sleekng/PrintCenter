@@ -91,6 +91,10 @@
                 </div>
             </div>
 
+            <div>
+                
+            </div>
+
             <!-- Design options -->
             <div v-if="selectDesignOption" class="flex flex-col md:flex-row items-center md:space-x-8 mt-5 rounded-md p-4 shadow-lg">
                 <!-- Design options buttons -->

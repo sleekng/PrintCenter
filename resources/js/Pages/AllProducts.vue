@@ -2,38 +2,38 @@
     <div>
       <!-- Navbar -->
       <Header :navcategories="categories" :CartCount="CartCount" />
-      
+  
       <section class="container flex w-full mx-auto py-8" id="app">
         <!-- Sidebar for Categories -->
-        <div class="hidden md:block w-full md:w-1/6 p-4">
+        <div class="hidden md:block w-full md:w-1/6 p-4 sticky top-4">
           <h2 class="text-2xl font-bold mb-4">Categories</h2>
           <ul class="category-list space-y-2">
-          <li>
-            <button
-              @click="filterByCategory('')"
-              :class="{'text-blue-500 font-bold': selectedCategory === ''}"
-              class="w-full text-left font-semibold text-gray-800 hover:text-blue-500"
-            >
-              All Categories
-            </button>
-          </li>
-          <li v-for="category in categories" :key="category.id">
-            <button
-              @click="filterByCategory(category.id)"
-              :class="{'text-blue-500 font-bold': selectedCategory === category.id}"
-              class="w-full text-left font-semibold text-gray-800 hover:text-blue-500"
-            >
-              {{ category.name }}
-            </button>
-          </li>
-        </ul>
+            <li>
+              <button
+                @click="filterByCategory('')"
+                :class="{'text-blue-500 font-bold': selectedCategory === ''}"
+                class="w-full text-left font-semibold text-gray-800 hover:text-blue-500"
+              >
+                All Categories
+              </button>
+            </li>
+            <li v-for="category in categories" :key="category.id">
+              <button
+                @click="filterByCategory(category.id)"
+                :class="{'text-blue-500 font-bold': selectedCategory === category.id}"
+                class="w-full text-left font-semibold text-gray-800 hover:text-blue-500"
+              >
+                {{ category.name }}
+              </button>
+            </li>
+          </ul>
         </div>
   
         <!-- Main Content for Products -->
         <div class="w-full md:w-3/4 p-4">
           <!-- Product Grid -->
           <h1 class="text-3xl font-bold mb-4">All Products</h1>
-          
+  
           <!-- Search Bar -->
           <div class="hero-search relative mb-6">
             <input type="text" v-model="searchTerm" @input="filterProducts" @keydown="showDropdown" @blur="hideDropdown" placeholder="Search for a product" class="search-input w-full h-12 border rounded-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -52,14 +52,13 @@
               <div v-else class="dropdown-empty p-4 text-gray-500">No matching products found</div>
             </div>
           </div>
-
-          
+  
           <div class="mb-6 sm:hidden">
-          <select v-model="selectedCategory" @change="filterByCategory(selectedCategory)" class="w-full h-12 border rounded-md bg-white text-gray-800">
-            <option value="">All Categories</option>
-            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
-          </select>
-        </div>
+            <select v-model="selectedCategory" @change="filterByCategory(selectedCategory)" class="w-full h-12 border rounded-md bg-white text-gray-800">
+              <option value="">All Categories</option>
+              <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+            </select>
+          </div>
   
           <!-- Product Grid Display -->
           <div class="products-grid grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-6">

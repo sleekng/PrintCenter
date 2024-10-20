@@ -126,32 +126,38 @@
                 </Link>
             </div>
         </div>
-        <div class="products-grid container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-10 ">
+        <div class="products-grid container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-10">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-                <Link :href="route('product.show', product.id)" class="product-card card border shadow-sm bg-white" v-for="product in products" :key="product.id">
-                <div class="product-image overflow-hidden h-72 sm:h-60 md:h-72">
-                    <img :src="'storage/'+product.product_img1" class="w-full h-full object-cover" alt="" />
-                </div>
-                <div class="product-details p-4">
-                    <div class="product-title">
-                        <h4 class="font-bold text-md text-gray-800">
-                            {{ truncateTitle(product.name, 7) }}
-                        </h4>
+                <Link :href="route('product.show', product.id)" class="product-card card rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white" v-for="product in visibleProducts" :key="product.id">
+                    <div class="product-image overflow-hidden h-72 sm:h-60 md:h-72">
+                        <img :src="'storage/'+product.product_img1" class="w-full h-full object-cover" alt="" />
                     </div>
-                    <div class="product-price">
-                        <span class="text-gray-400">starting at</span>
-                        <div class="price-details flex justify-between items-center py-4">
-                            <span class="price text-2xl font-bold text-gray-800">₦{{ product.price * product.unit }}</span>
-                            <span class="unit text-gray-600">Per {{ product.unit }} unit</span>
+                    <div class="product-details p-4">
+                        <div class="product-title">
+                            <h4 class="font-bold text-md text-gray-800">
+                                {{ truncateTitle(product.name, 7) }}
+                            </h4>
+                        </div>
+                        <div class="product-price">
+                            <span class="text-gray-400">starting at</span>
+                            <div class="price-details flex justify-between items-center py-4">
+                                <span class="price text-2xl font-bold text-gray-800">₦{{ product.price * product.unit }}</span>
+                                <span class="unit text-gray-600">Per {{ product.unit }} unit</span>
+                            </div>
+                        </div>
+                        <div class="product-action">
+                            <PrimaryButton :href="route('product.show', product.id)" class="select-option-button bg-gray-800 text-white px-8 py-2 font-bold rounded-sm flex w-full justify-center">
+                                Select Option
+                            </PrimaryButton>
                         </div>
                     </div>
-                    <div class="product-action">
-                        <PrimaryButton :href="route('product.show', product.id)" class="select-option-button bg-gray-800 text-white px-8 py-2 font-bold rounded-sm flex w-full justify-center">
-                            Select Option
-                        </PrimaryButton>
-                    </div>
-                </div>
                 </Link>
+            </div>
+            <!-- Load More Button -->
+            <div class="text-center mt-10">
+                <button v-if="visibleProducts.length < products.length" @click="loadMore" class=" px-16 p-4   bg-primary text-white font-bold  rounded-md">
+                    Load More
+                </button>
             </div>
         </div>
     </section>
@@ -214,7 +220,7 @@ export default {
             autoTimer: null,
             searchTerm: '',
             isDropdownVisible: false,
-
+            itemsToShow: 12 // Number of products to show initially and increment on load more
         }
     },
     props: {
@@ -242,9 +248,13 @@ export default {
         toggleColor() {
             this.activeColor = this.activeColor === 'red' ? '#c5c8cf' : 'white';
         },
-        truncateTitle(title, wordCount) {
+              // Existing methods...
+              truncateTitle(title, wordCount) {
             const words = title.split(" ");
             return words.length > wordCount ? words.slice(0, wordCount).join(" ") + "..." : title;
+        },
+        loadMore() {
+            this.itemsToShow += 12; // Increase the number to show by 12
         },
 
         nextCard() {
@@ -276,6 +286,9 @@ export default {
     computed: {
         filteredProducts() {
             return this.products.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        },
+        visibleProducts() {
+            return this.products.slice(0, this.itemsToShow);
         }
     },
 };
